@@ -1,4 +1,7 @@
 '.source.curry':
+  '… -> …':
+    'prefix': '->'
+    'body': '${1:expression} -> ${0:expression}'
   'List Comprehension':
     'prefix': '['
     'body': '[${1:expression} | ${2:${3:name} <- ${4:expression}}$0'
@@ -9,14 +12,11 @@
     'prefix': '\\'
     'body': '\\\\${1:pattern} -> ${0:expression}'
   '… <- …':
-    'prefix': '<'
+    'prefix': '<-'
     'body': '${1:name} <- ${0:expression}'
   'Definition':
     'prefix': '='
     'body': '${1:name} ${2:pattern} = ${0:expression}'
-  '… -> …':
-    'prefix': '>'
-    'body': '${1:expression} -> ${0:expression}'
   'Guard':
     'prefix': '|'
     'body': '| ${1:predicate} = ${0:expression}'
@@ -25,11 +25,17 @@
     'body': """
       case ${1:expression} of
         ${2:pattern} -> ${3:expression}
-        ${4:otherwise} -> ${5:expression}
+        ${4:otherwise} -> ${0:expression}
     """
   'data …':
     'prefix': 'data'
     'body': 'data ${1:Type} = ${0:Other}'
+  'do …':
+    'prefix': 'do'
+    'body': """
+      do ${1:${2:name} <- ${3:expression}}
+         ${4:return ${0:expression}}
+    """
   'Function':
     'prefix': 'func'
     'body': """
@@ -41,7 +47,7 @@
     'body': """
       if ${1:condition}
         then ${2:expression}
-        else ${3:expression}
+        else ${0:expression}
     """
   'import …':
     'prefix': 'imp'
