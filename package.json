@@ -1,7 +1,9 @@
 {
   "name": "language-curry",
   "version": "0.0.0",
-  "description": "Curry language support for Atom",
+  "description": "Curry language support in Atom",
+  "keywords": [
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/matthesjh/language-curry.git"
@@ -12,5 +14,7 @@
   "license": "MIT",
   "engines": {
     "atom": "*"
+  },
+  "dependencies": {
   }
 }
