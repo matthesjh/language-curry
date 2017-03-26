@@ -37,6 +37,38 @@
       \t${1:${2:name} <- ${3:expression}}
       \t${4:return ${0:expression}}
     """
+  'Data Documentation':
+    'prefix': 'docd'
+    'body': """
+      --- ${1:comment}
+      ---
+      --- @cons ${2:name} - ${0:comment}
+    """
+  'Function Documentation':
+    'prefix': 'docf'
+    'body': """
+      --- ${1:comment}
+      ---
+      --- @param ${2:name} - ${3:comment}
+      ---
+      --- @return ${0:comment}
+    """
+  'Module Documentation':
+    'prefix': 'docm'
+    'body': """
+      --- ${1:comment}
+      ---
+      --- @author ${2:author}
+      --- @version ${3:version}
+      --- @category ${0:category}
+    """
+  'Record Documentation':
+    'prefix': 'docr'
+    'body': """
+      --- ${1:comment}
+      ---
+      --- @field ${2:name} - ${0:comment}
+    """
   'Function':
     'prefix': 'func'
     'body': """
