@@ -2,4 +2,4 @@
   'editor':
     'commentStart': '-- '
     'decreaseNextIndentPattern': '^\\s*$'
-    'increaseIndentPattern': '(((=|\\bdo|\\bwhere|\\bthen|\\belse|\\bof)\\s*)|(\\bif(?!.*\\bthen\\b.*\\belse\\b.*).*))$'
+    'increaseIndentPattern': '(?:(?:(?:=|\\bdo|\\bwhere|\\bthen|\\belse|\\bof)\\s*)|(?:\\bif(?!.*\\bthen\\b.*\\belse\\b.*).*))$'
