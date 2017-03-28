@@ -91,11 +91,14 @@
   'import qualified …':
     'prefix': 'impq'
     'body': 'import qualified ${1:Module}${2: as ${3:Mod}}'
+  'import qualified … hiding …':
+    'prefix': 'impqh'
+    'body': 'import qualified ${1:Module}${2: as ${3:Mod}} hiding (${4:name})'
   'let … in …':
     'prefix': 'let'
     'body': """
       let
-      \t${1:name} = ${2:expression}
+      \t${1:pattern} = ${2:expression}
       \tin ${0:expression}
     """
   'main':
