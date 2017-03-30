@@ -13,12 +13,16 @@
     'name': 'keyword.operator.assignment.curry'
     'match': '='
   'attribute_name':
-    'name': 'entity.other.attribute-name.curry'
-    'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+    'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)\\.)?([a-z](?:\\w|\')*)'
+    'captures':
+      '1':
+        'name': 'entity.name.module.curry'
+      '2':
+        'name': 'entity.other.attribute-name.curry'
   'block_comment':
     'name': 'comment.block.curry'
-    'begin': '\\{-'
-    'end': '-\\}'
+    'begin': '{-'
+    'end': '-}'
     'applyEndPatternLast': 1
     'beginCaptures':
       '0':
@@ -31,27 +35,26 @@
         'include': '#block_comment'
       }
     ]
-  'comma':
+  'comma_separator':
     'name': 'punctuation.separator.comma.curry'
     'match': ','
   'comment':
     'patterns': [
       {
-        'name': 'comment.block.currydoc.curry'
-        'begin': '^(?=---(?:\\s|\\n))'
+        'begin': '^(?=---(?!-))'
         'end': '(?!\\G)'
         'patterns': [
           {
             'name': 'comment.line.triple-dash.currydoc.curry'
-            'begin': '(---)(?=\\s|\\n)'
+            'begin': '---(?!-)'
             'end': '\\n'
             'beginCaptures':
-              '1':
+              '0':
                 'name': 'punctuation.definition.comment.currydoc.curry'
             'patterns': [
               {
                 'name': 'keyword.other.documentation.currydoc.curry'
-                'match': '@(?:author|category|return|version)\\b'
+                'match': '@(?:author|category|return|version)(?=\\s)'
               }
               {
                 'match': '(@cons)\\s+(\\S+)'
@@ -82,7 +85,7 @@
         ]
       }
       {
-        'begin': '(?:^[\\s\\t]+)?(?=--+(?!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))))'
+        'begin': '(?:^[ \\t]+)?(?=--+(?![~!@#$%^&*+\-=<>?./|\\\\:]))'
         'end': '(?!\\G)'
         'patterns': [
           {
@@ -129,7 +132,7 @@
         'include': '#infix_operator'
       }
       {
-        'include': '#comma'
+        'include': '#comma_separator'
       }
       {
         'include': '#numeric_literal'
@@ -138,33 +141,27 @@
         'include': '#operator'
       }
       {
-        'include': '#identifier'
+        'include': '#type_constructor'
       }
       {
-        'include': '#type_ctor'
+        'include': '#identifier'
       }
     ]
   'curry_preprocessor':
     'name': 'meta.preprocessor.curry'
-    'begin': '``+(?=format|printf|regex|html|xml|sql)'
-    'end': '\'\'+'
+    'begin': '``(?=format|printf|regex|html|xml|sql)'
+    'end': '\'\''
     'beginCaptures':
       '0':
-        'name': 'punctuation.definition.string.begin.curry'
+        'name': 'punctuation.definition.preprocessor.begin.curry'
     'endCaptures':
       '0':
-        'name': 'punctuation.definition.string.end.curry'
+        'name': 'punctuation.definition.preprocessor.end.curry'
   'curry_source':
     'patterns': [
       {
         'include': '#module_declaration'
       }
-      {
-        'include': '#curry_toplevel'
-      }
-    ]
-  'curry_toplevel':
-    'patterns': [
       {
         'include': '#import'
       }
@@ -185,9 +182,9 @@
       }
     ]
   'data_declaration':
-    'name': 'meta.declaration.type.data.curry'
-    'begin': '^([\\s\\t]*)(data|newtype)\\s+((?:(?!=|where).)*)'
-    'end': '^(?!\\1[\\s\\t]|[\\s\\t]*$)'
+    'name': 'meta.declaration.data.curry'
+    'begin': '^([ \\t]*)(data|newtype)\\s+((?:(?!=).)*)'
+    'end': '^(?!\\1[ \\t]|[ \\t]*$)'
     'beginCaptures':
       '2':
         'name': 'keyword.other.$2.curry'
@@ -206,12 +203,12 @@
         'include': '#assignment_operator'
       }
       {
-        'match': '(?:(?:(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))([\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*)\\s*)(?:((?:(?!deriving)(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*|(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:(?!deriving)(?:[\\w()\'→⇒\\[\\],]|->|=>)+\\s*)+))(?:(?:\\s+)(?:(?!deriving)(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*|(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:(?!deriving)(?:[\\w()\'→⇒\\[\\],]|->|=>)+\\s*)+)))*)?))'
+        'match': '(?:(?:((?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[A-Z](?:\\w|\')*))\\s*)(?:((?:(?!deriving)(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[A-Z](?:\\w|\')*)|(?:(?:[a-z](?:\\w|\')*)|_)|(?:(?:[\\w()\'\\[\\],]|->)+\\s*)+))(?:(?:\\s+)(?:(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[A-Z](?:\\w|\')*)|(?:(?:[a-z](?:\\w|\')*)|_)|(?:(?:[\\w()\'\\[\\],]|->)+\\s*)+)))*)?))'
         'captures':
           '1':
             'patterns': [
               {
-                'include': '#type_ctor'
+                'include': '#type_constructor'
               }
             ]
           '2':
@@ -223,13 +220,12 @@
             ]
       }
       {
-        'name': 'punctuation.separator.pipe.curry'
-        'match': '\\|'
+        'include': '#pipe_separator'
       }
       {
         'name': 'meta.declaration.type.data.record.block.curry'
-        'begin': '\\{'
-        'end': '\\}'
+        'begin': '{'
+        'end': '}'
         'beginCaptures':
           '0':
             'name': 'keyword.operator.record.begin.curry'
@@ -241,7 +237,7 @@
             'include': '#comment'
           }
           {
-            'include': '#comma'
+            'include': '#comma_separator'
           }
           {
             'include': '#record_field_declaration'
@@ -256,7 +252,11 @@
     'patterns': [
       {
         'name': 'constant.character.escape.curry'
-        'match': '\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\'\\&])'
+        'match': '\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\'&])'
+      }
+      {
+        'name': 'constant.character.escape.decimal.curry'
+        'match': '\\\\[0-9]+'
       }
       {
         'name': 'constant.character.escape.octal.curry'
@@ -268,17 +268,21 @@
       }
       {
         'name': 'constant.character.escape.control.curry'
-        'match': '\\\\\\^[A-Z@\\[\\]\\\\^_]'
+        'match': '\\\\\\^[A-Z@\\[\\]^_]'
       }
     ]
   'function_name':
-    'name': 'entity.name.function.curry'
-    'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+    'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)\\.)?([a-z](?:\\w|\')*)'
+    'captures':
+      '1':
+        'name': 'entity.name.module.curry'
+      '2':
+        'name': 'entity.name.function.curry'
   'function_type_declaration':
     'name': 'meta.function.type-declaration.curry'
-    'begin': '^([\\s\\t]*)(?:(?:((?:(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:\\((?!--+\\))(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+\\)))(?:(?:\\s*,\\s*)(?:(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:\\((?!--+\\))(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+\\))))*))(?:\\s*((?<!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\'])))(?:::|∷)(?!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))))))'
-    'end': '^(?!\\1[\\s\\t]|[\\s\\t]*$)'
     'contentName': 'meta.type-signature.curry'
+    'begin': '^([ \\t]*)((?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\-=<>?./|\\\\:])'
+    'end': '^(?!\\1[ \\t]|[ \\t]*$)'
     'beginCaptures':
       '2':
         'patterns': [
@@ -287,6 +291,9 @@
           }
           {
             'include': '#infix_operator'
+          }
+          {
+            'include': '#comma_separator'
           }
         ]
       '3':
@@ -297,23 +304,22 @@
       }
     ]
   'identifier':
-    'name': 'identifier.curry'
-    'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+    'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)\\.)?([a-z](?:\\w|\')*)'
     'captures':
-      '0':
+      '1':
+        'name': 'entity.name.module.curry'
+      '2':
+        'name': 'identifier.curry'
         'patterns': [
           {
-            'include': '#module_name_prefix'
-          }
-          {
-            'name': 'support.function.prelude.$1.curry'
-            'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(all|and|any|anyOf|appendFile|apply|break|catch|chr|compare|concat|concatMap|cond|const|curry|div|divMod|done|doSolve|drop|dropWhile|either|elem|ensureNotFree|ensureSpine|enumFrom|enumFromThen|enumFromThenTo|enumFromTo|error|failed|filter|flip|foldIO|foldl|foldl1|foldr|foldr1|forIO|forIO_|fst|getChar|getLine|groundNormalForm|head|id|if_then_else|ioError|iterate|length|liftIO|lines|lookup|map|mapIO|mapIO_|max|maybe|min|mod|negate|negateFloat|negateForm|not|notElem|null|or|ord|otherwise|prim_appendFile|prim_chr|prim_error|prim_ioError|prim_ord|prim_putChar|prim_readFile|prim_show|prim_writeFile|print|putChar|putStr|putStrLn|PEVAL|quot|quotRem|readFile|rem|repeat|replicate|return|reverse|seq|sequenceIO|sequenceIO_|show|showError|snd|solve|span|splitAt|success|tail|take|takeWhile|uncurry|unknown|unless|unlines|until|unwords|unzip|unzip3|userError|when|words|writeFile|zip|zip3|zipWith|zipWith3)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+            'name': 'support.function.prelude.$0.curry'
+            'match': '(?<!\\w|\')(?:all|and|any|anyOf|appendFile|apply|break|catch|chr|compare|concat|concatMap|cond|const|curry|div|divMod|done|doSolve|drop|dropWhile|either|elem|ensureNotFree|ensureSpine|enumFrom|enumFromThen|enumFromThenTo|enumFromTo|error|failed|filter|flip|foldIO|foldl|foldl1|foldr|foldr1|forIO|forIO_|fst|getChar|getLine|groundNormalForm|head|id|if_then_else|ioError|iterate|length|liftIO|lines|lookup|map|mapIO|mapIO_|max|maybe|min|mod|negate|negateFloat|normalForm|not|notElem|null|or|ord|otherwise|prim_appendFile|prim_chr|prim_error|prim_ioError|prim_ord|prim_putChar|prim_readFile|prim_show|prim_writeFile|print|putChar|putStr|putStrLn|quot|quotRem|readFile|rem|repeat|replicate|return|reverse|seq|sequenceIO|sequenceIO_|show|showError|snd|solve|span|splitAt|success|tail|take|takeWhile|uncurry|unknown|unless|unlines|until|unwords|unzip|unzip3|userError|when|words|writeFile|zip|zip3|zipWith|zipWith3)(?!\\w|\')'
           }
         ]
   'import':
     'name': 'meta.import.curry'
-    'begin': '^([\\s\\t]*)(import)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
-    'end': '^(?!\\1[\\s\\t]|[\\s\\t]*$)'
+    'begin': '^([ \\t]*)(import)(?=\\s)'
+    'end': '^(?!\\1[ \\t]|[ \\t]*$)'
     'beginCaptures':
       '2':
         'name': 'keyword.other.import.curry'
@@ -325,10 +331,8 @@
         'include': '#module_exports'
       }
       {
-        'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(qualified|as|hiding)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
-        'captures':
-          '1':
-            'name': 'keyword.other.$1.curry'
+        'name': 'keyword.other.$0.curry'
+        'match': '(?<!\\w|\')(?:qualified|as|hiding)(?!\\w|\')'
       }
       {
         'include': '#comment'
@@ -336,37 +340,41 @@
     ]
   'infix_function':
     'name': 'keyword.operator.function.infix.curry'
-    'match': '(`)(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(`)'
+    'match': '(`)(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*(`)'
     'captures':
       '1':
-        'name': 'punctuation.definition.entity.curry'
+        'name': 'punctuation.definition.entity.start.curry'
       '2':
-        'name': 'punctuation.definition.entity.curry'
+        'name': 'punctuation.definition.entity.end.curry'
   'infix_operator':
-    'name': 'entity.name.function.infix.curry'
-    'match': '(?:\\((?!--+\\))(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+\\))'
+    'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)\\.)?(\\((?!--+\\))[~!@#$%^&*+\-=<>?./|\\\\:]+\\))'
+    'captures':
+      '1':
+        'name': 'entity.name.module.curry'
+      '2':
+        'name': 'entity.name.function.infix.curry'
   'invalid':
     'name': 'invalid.illegal.character-not-allowed-here.curry'
     'match': '\\S+'
   'keyword':
     'patterns': [
       {
-        'name': 'keyword.other.$1.curry'
-        'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(where|data|type|newtype|external|free)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+        'name': 'keyword.other.$0.curry'
+        'match': '(?<!\\w|\')(?:where|data|type|newtype|external|free)(?!\\w|\')'
       }
       {
-        'name': 'keyword.operator.curry'
-        'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))infix[lr]?(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+        'name': 'keyword.operator.$0.curry'
+        'match': '(?<!\\w|\')infix[lr]?(?!\\w|\')'
       }
       {
-        'name': 'keyword.control.curry'
-        'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(?:do|if|then|else|case|fcase|of|let|in)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+        'name': 'keyword.control.$0.curry'
+        'match': '(?<!\\w|\')(?:do|if|then|else|case|fcase|of|let|in)(?!\\w|\')'
       }
     ]
   'module_declaration':
     'name': 'meta.declaration.module.curry'
-    'begin': '^([\\s\\t]*)(module)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
-    'end': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(where)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))|^(?!\\1[\\s\\t]|[\\s\\t]*$)'
+    'begin': '^([ \\t]*)(module)(?!\\w|\')'
+    'end': '(?<!\\w|\')(where)(?!\\w|\')|(?:^(?!\\1[ \\t]|[ \\t]*$))'
     'beginCaptures':
       '2':
         'name': 'keyword.other.module.curry'
@@ -399,31 +407,31 @@
             'include': '#comment'
           }
           {
-            'include': '#function_name'
-          }
-          {
             'include': '#type_name'
           }
           {
-            'include': '#comma'
+            'include': '#function_name'
+          }
+          {
+            'include': '#comma_separator'
           }
           {
             'name': 'meta.other.constructor-list.curry'
-            'begin': '(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))\\s*\\('
+            'begin': '\\s*\\('
             'end': '\\)'
             'patterns': [
               {
-                'include': '#type_ctor'
+                'include': '#type_constructor'
               }
               {
                 'include': '#attribute_name'
               }
               {
-                'include': '#comma'
+                'include': '#comma_separator'
               }
               {
-                'match': '\\.\\.'
                 'name': 'keyword.operator.wildcard.curry'
+                'match': '\\.\\.'
               }
             ]
           }
@@ -434,16 +442,13 @@
       }
     ]
   'module_name':
-    'name': 'support.other.module.curry'
-    'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
-  'module_name_prefix':
-    'name': 'support.other.module.curry'
-    'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.'
+    'name': 'entity.name.module.curry'
+    'match': '(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*'
   'numeric_literal':
     'patterns': [
       {
         'name': 'constant.numeric.hexadecimal.curry'
-        'match': '0[xX][0-9a-fA-F]+'
+        'match': '0[xX][0-9A-Fa-f]+'
       }
       {
         'name': 'constant.numeric.octal.curry'
@@ -460,20 +465,29 @@
     ]
   'operator':
     'name': 'keyword.operator.curry'
-    'match': '(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+'
+    'match': '(?!--+)[~!@#$%^&*+\-=<>?./|\\\\:]+'
+  'pipe_separator':
+    'name': 'punctuation.separator.pipe.curry'
+    'match': '\\|'
   'pragma':
     'name': 'meta.preprocessor.curry'
-    'begin': '\\{-#'
-    'end': '#-\\}'
+    'begin': '{-#'
+    'end': '#-}'
+    'beginCaptures':
+      '0':
+        'name': 'punctuation.definition.preprocessor.begin.curry'
+    'endCaptures':
+      '0':
+        'name': 'punctuation.definition.preprocessor.end.curry'
     'patterns': [
       {
         'name': 'keyword.other.preprocessor.curry'
-        'match': '(?<=\\s)[A-Z_]+(?=\\s)'
+        'match': '(?<=^|\\s)[A-Z_]+(?=\\s)'
       }
     ]
   'quoted_character':
     'name': 'string.quoted.single.curry'
-    'match': '(\')((?:[\\ -\\[\\]-~]|\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\'\\&])|(?:\\\\o[0-7]+)|(?:\\\\x[0-9A-Fa-f]+)|(?:\\\\\\^[A-Z@\\[\\]\\\\^_])|(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))))(\')'
+    'match': '(\')([\\ -\\[\\]-~\\\\]|(?:\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\'&]))|(?:\\\\[0-9]+)|(?:\\\\o[0-7]+)|(?:\\\\x[0-9A-Fa-f]+)|(?:\\\\\\^[A-Z@\\[\\]^_]))(\')'
     'captures':
       '1':
         'name': 'punctuation.definition.string.begin.curry'
@@ -487,9 +501,9 @@
         'name': 'punctuation.definition.string.end.curry'
   'record_field_declaration':
     'name': 'meta.record-field.type-declaration.curry'
-    'begin': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(?:(?:((?:(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:\\((?!--+\\))(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+\\)))(?:(?:\\s*,\\s*)(?:(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:\\((?!--+\\))(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+\\))))*))(?:\\s*((?<!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\'])))(?:::|∷)(?!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))))))'
-    'end': '(?=(?:(?:((?:(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:\\((?!--+\\))(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+\\)))(?:(?:\\s*,\\s*)(?:(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*|(?:\\((?!--+\\))(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))+\\))))*))(?:\\s*((?<!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\'])))(?:::|∷)(?!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\']))))))|})'
     'contentName': 'meta.type-signature.curry'
+    'begin': '((?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\-=<>?./|\\\\:])'
+    'end': '(?=,?\\s*((?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\-=<>?./|\\\\:])|})'
     'beginCaptures':
       '1':
         'patterns': [
@@ -498,6 +512,9 @@
           }
           {
             'include': '#infix_operator'
+          }
+          {
+            'include': '#comma_separator'
           }
         ]
       '2':
@@ -524,9 +541,9 @@
     ]
   'type_alias':
     'name': 'meta.declaration.type.curry'
-    'begin': '^([\\s\\t]*)(type)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
-    'end': '^(?!\\1[\\s\\t]|[\\s\\t]*$)'
     'contentName': 'meta.type-signature.curry'
+    'begin': '^([ \\t]*)(type)(?=\\s)'
+    'end': '^(?!\\1[ \\t]|[ \\t]*$)'
     'beginCaptures':
       '2':
         'name': 'keyword.other.type.curry'
@@ -541,32 +558,28 @@
         'include': '#type_signature'
       }
     ]
-  'type_ctor':
+  'type_constructor':
     'name': 'entity.name.tag.curry'
-    'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+    'match': '(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*'
     'captures':
       '0':
         'patterns': [
           {
-            'include': '#module_name_prefix'
-          }
-          {
-            'name': 'support.tag.prelude.$1.curry'
-            'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(LT|EQ|GT|Left|Right|Nothing|Just|True|False|IOError|UserError|FailError|NondetError)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+            'name': 'support.tag.prelude.$0.curry'
+            'match': '(?<!\\w|\')(?:LT|EQ|GT|Left|Right|Nothing|Just|True|False|IOError|UserError|FailError|NondetError)(?!\\w|\')'
           }
         ]
   'type_name':
-    'name': 'entity.name.type.curry'
-    'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+    'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)\\.)?([A-Z](?:\\w|\')*)'
     'captures':
-      '0':
+      '1':
+        'name': 'entity.name.module.curry'
+      '2':
+        'name': 'entity.name.type.curry'
         'patterns': [
           {
-            'include': '#module_name_prefix'
-          }
-          {
-            'name': 'support.class.prelude.$1.curry'
-            'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(Either|IO|IOError|Int|Maybe|Ordering|String|Bool|Char|Float|DET|Success)(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+            'name': 'support.type.prelude.$0.curry'
+            'match': '(?<!\\w|\')(?:Bool|Char|DET|Either|Float|Int|IO|IOError|Maybe|Ordering|String|Success)(?!\\w|\')'
           }
         ]
   'type_signature':
@@ -578,21 +591,15 @@
         'include': '#unit'
       }
       {
-        'include': '#empty_list'
-      }
-      {
-        'include': '#string'
-      }
-      {
         'name': 'keyword.other.arrow.curry'
-        'match': '(?<!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\'])))(?:->|→)(?!(?:[\\p{S}\\p{P}](?<![(),;\\[\\]`{}_"\'])))'
+        'match': '(?<![~!@#$%^&*+\-=<>?./|\\\\:])->(?![~!@#$%^&*+\-=<>?./|\\\\:])'
       }
       {
         'include': '#operator'
       }
       {
         'name': 'variable.other.generic-type.curry'
-        'match': '(?:(?=[\\p{Ll}_\\p{Lu}\\p{Lt}])(?<![\\p{Ll}_\\p{Lu}\\p{Lt}\']))(?:[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:\\.[\\p{Lu}\\p{Lt}][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*)*\\.)?[\\p{Ll}_][\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']*(?:(?<=[\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\'])(?![\\p{Ll}_\\p{Lu}\\p{Lt}\\p{Nd}\']))'
+        'match': '(?:[a-z](?:\\w|\')*)|_'
       }
       {
         'include': '#type_name'
