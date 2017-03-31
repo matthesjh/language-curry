@@ -507,6 +507,10 @@
         'match': '0[oO][0-7]+'
       }
       {
+        'name': 'constant.numeric.binary.curry'
+        'match': '0[bB][0-1]+'
+      }
+      {
         'name': 'constant.numeric.float.curry'
         'match': '[0-9]+(?:\\.[0-9]+[eE][+-]?|\\.|[eE][+-]?)[0-9]+'
       }
