@@ -42,7 +42,7 @@
     'body': """
       --- ${1:comment}
       ---
-      --- @cons ${2:name} - ${0:comment}
+      --- @cons ${2:Name} - ${0:comment}
     """
   'Function Documentation':
     'prefix': 'docf'
