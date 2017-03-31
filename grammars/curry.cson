@@ -451,6 +451,14 @@
             'include': '#comment'
           }
           {
+            'match': '(?<!\\w|\')(module)\\s+((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)'
+            'captures':
+              '1':
+                'name': 'keyword.other.module.curry'
+              '2':
+                'name': 'entity.name.module.curry'
+          }
+          {
             'include': '#type_name'
           }
           {
@@ -461,7 +469,7 @@
           }
           {
             'name': 'meta.other.constructor-list.curry'
-            'begin': '\\s*\\('
+            'begin': '(?!(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\'*)\\.)?\\((?!(?:--+\\))|(?:\\.\\.\\)))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))\\('
             'end': '\\)'
             'patterns': [
               {
