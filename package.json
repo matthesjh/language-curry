@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "description": "Curry language support in Atom",
   "keywords": [
+    "curry",
+    "grammar",
+    "language",
+    "snippets"
   ],
   "repository": {
     "type": "git",
