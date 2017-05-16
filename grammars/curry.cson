@@ -547,7 +547,7 @@
     ]
   'quoted_character':
     'name': 'string.quoted.single.curry'
-    'match': '(\')([\\ -\\[\\]-~\\\\]|(?:\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\'&]))|(?:\\\\[0-9]+)|(?:\\\\o[0-7]+)|(?:\\\\x[0-9A-Fa-f]+)|(?:\\\\\\^[A-Z@\\[\\]^_]))(\')'
+    'match': '(\')((?:\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\'&]))|(?:\\\\[0-9]+)|(?:\\\\o[0-7]+)|(?:\\\\x[0-9A-Fa-f]+)|(?:\\\\\\^[A-Z@\\[\\]^_])|[\\ -\\[\\]-~\\\\])(\')'
     'captures':
       '1':
         'name': 'punctuation.definition.string.begin.curry'
