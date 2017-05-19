@@ -4,7 +4,7 @@
     'body': '${1:expression} -> ${0:expression}'
   'List Comprehension':
     'prefix': '['
-    'body': '[${1:expression} | ${2:${3:pattern} <- ${4:expression}}$0'
+    'body': '[${1:expression} | ${2:${3:pattern} <- ${4:expression}}'
   '{-# … #-}':
     'prefix': '{-#'
     'body': '{-# $1 #-'
@@ -19,7 +19,7 @@
     'body': '${1:name} ${2:pattern} = ${0:expression}'
   'Guard':
     'prefix': '|'
-    'body': '| ${1:predicate} = ${0:expression}'
+    'body': '| ${1:condition} = ${0:expression}'
   'case … of …':
     'prefix': 'case'
     'body': """
@@ -35,7 +35,7 @@
     'body': """
       do
       \t${1:${2:pattern} <- ${3:expression}}
-      \t${4:return ${0:expression}}
+      \t${4:return ${5:expression}}
     """
   'Data Documentation':
     'prefix': 'docd'
@@ -87,13 +87,13 @@
     'body': 'import ${0:Module}'
   'import … hiding …':
     'prefix': 'imph'
-    'body': 'import ${1:Module} hiding (${2:name})'
+    'body': 'import ${1:Module} hiding (${2:name})$0'
   'import qualified …':
     'prefix': 'impq'
     'body': 'import qualified ${1:Module}${2: as ${3:Mod}}'
   'import qualified … hiding …':
     'prefix': 'impqh'
-    'body': 'import qualified ${1:Module}${2: as ${3:Mod}} hiding (${4:name})'
+    'body': 'import qualified ${1:Module}${2: as ${3:Mod}} hiding (${4:name})$0'
   'let … in …':
     'prefix': 'let'
     'body': """
