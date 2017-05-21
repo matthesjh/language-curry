@@ -16,7 +16,11 @@
     'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)(\\.))?([a-z](?:\\w|\')*)'
     'captures':
       '1':
-        'name': 'entity.name.class.curry'
+        'patterns': [
+          {
+            'include': '#module_name'
+          }
+        ]
       '2':
         'name': 'punctuation.separator.dot.curry'
       '3':
@@ -43,16 +47,16 @@
   'comment':
     'patterns': [
       {
+        'name': 'comment.block.documentation.currydoc.curry'
         'begin': '^(?=---(?!-))'
         'end': '(?!\\G)'
         'patterns': [
           {
-            'name': 'comment.line.triple-dash.currydoc.curry'
             'begin': '---(?!-)'
             'end': '\\n'
             'beginCaptures':
               '0':
-                'name': 'punctuation.definition.comment.currydoc.curry'
+                'name': 'punctuation.definition.comment.documentation.currydoc.curry'
             'patterns': [
               {
                 'name': 'keyword.other.documentation.currydoc.curry'
@@ -69,6 +73,12 @@
                         'include': '#type_constructor_name'
                       }
                       {
+                        'include': '#prefix_operator'
+                      }
+                      {
+                        'include': '#operator'
+                      }
+                      {
                         'include': '#invalid'
                       }
                     ]
@@ -82,6 +92,12 @@
                     'patterns': [
                       {
                         'include': '#attribute_name'
+                      }
+                      {
+                        'include': '#prefix_operator'
+                      }
+                      {
+                        'include': '#operator'
                       }
                       {
                         'include': '#invalid'
@@ -132,6 +148,9 @@
         'include': '#infix_function'
       }
       {
+        'include': '#infix_type_constructor'
+      }
+      {
         'include': '#unit'
       }
       {
@@ -139,6 +158,9 @@
       }
       {
         'include': '#keyword'
+      }
+      {
+        'include': '#wildcard'
       }
       {
         'include': '#pragma'
@@ -153,7 +175,7 @@
         'include': '#comment'
       }
       {
-        'include': '#infix_operator'
+        'include': '#prefix_operator'
       }
       {
         'include': '#comma_separator'
@@ -187,6 +209,35 @@
     'endCaptures':
       '0':
         'name': 'punctuation.definition.preprocessor.end.curry'
+    'patterns': [
+      {
+        'begin': 'html'
+        'end': '(?=\'\')'
+        'patterns': [
+          {
+            'include': 'text.html.basic'
+          }
+        ]
+      }
+      {
+        'begin': 'xml'
+        'end': '(?=\'\')'
+        'patterns': [
+          {
+            'include': 'text.xml'
+          }
+        ]
+      }
+      {
+        'begin': 'sql'
+        'end': '(?=\'\')'
+        'patterns': [
+          {
+            'include': 'source.sql'
+          }
+        ]
+      }
+    ]
   'curry_source':
     'patterns': [
       {
@@ -233,27 +284,27 @@
         'include': '#assignment_operator'
       }
       {
-        'match': '((?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[A-Z](?:\\w|\')*)\\s*((?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[A-Z](?:\\w|\')*)|(?:(?:[a-z](?:\\w|\')*)|_)|(?:(?:[\\w()\'\\[\\],]|->)+\\s*)+)(?:(?:\\s+)(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[A-Z](?:\\w|\')*)|(?:(?:[a-z](?:\\w|\')*)|_)|(?:(?:[\\w()\'\\[\\],]|->)+\\s*)+))*)?'
-        'captures':
-          '1':
+        'contentName': 'meta.type-signature.curry'
+        'begin': '[A-Z](?:\\w|\')*'
+        'end': '(?=$|{|\\|)'
+        'beginCaptures':
+          '0':
             'patterns': [
               {
                 'include': '#type_constructor_name'
               }
             ]
-          '2':
-            'name': 'meta.type-signature.curry'
-            'patterns': [
-              {
-                'include': '#type_signature'
-              }
-            ]
+        'patterns': [
+          {
+            'include': '#type_signature'
+          }
+        ]
       }
       {
         'include': '#pipe_separator'
       }
       {
-        'name': 'meta.declaration.data.record.curry'
+        'name': 'meta.declaration.record.curry'
         'begin': '{'
         'end': '}'
         'beginCaptures':
@@ -285,27 +336,31 @@
         'match': '\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\'&])'
       }
       {
-        'name': 'constant.character.escape.decimal.curry'
-        'match': '\\\\[0-9]+'
+        'name': 'constant.character.escape.control.curry'
+        'match': '\\\\\\^[@-_]'
       }
       {
-        'name': 'constant.character.escape.octal.curry'
-        'match': '\\\\o[0-7]+'
+        'name': 'constant.character.escape.decimal.curry'
+        'match': '\\\\[0-9]+'
       }
       {
         'name': 'constant.character.escape.hexadecimal.curry'
         'match': '\\\\x[0-9A-Fa-f]+'
       }
       {
-        'name': 'constant.character.escape.control.curry'
-        'match': '\\\\\\^[@-_]'
+        'name': 'constant.character.escape.octal.curry'
+        'match': '\\\\o[0-7]+'
       }
     ]
   'function_name':
     'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)(\\.))?([a-z](?:\\w|\')*)'
     'captures':
       '1':
-        'name': 'entity.name.class.curry'
+        'patterns': [
+          {
+            'include': '#module_name'
+          }
+        ]
       '2':
         'name': 'punctuation.separator.dot.curry'
       '3':
@@ -322,7 +377,7 @@
             'include': '#function_name'
           }
           {
-            'include': '#infix_operator'
+            'include': '#prefix_operator'
           }
           {
             'include': '#comma_separator'
@@ -339,7 +394,11 @@
     'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)(\\.))?([a-z](?:\\w|\')*)'
     'captures':
       '1':
-        'name': 'entity.name.class.curry'
+        'patterns': [
+          {
+            'include': '#module_name'
+          }
+        ]
       '2':
         'name': 'punctuation.separator.dot.curry'
       '3':
@@ -373,7 +432,7 @@
       }
     ]
   'infix_function':
-    'match': '(`)(\\S+)(`)'
+    'match': '(`)((?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)(`)'
     'captures':
       '1':
         'name': 'punctuation.definition.operator.function.infix.start.curry'
@@ -382,21 +441,22 @@
           {
             'include': '#function_name'
           }
-          {
-            'include': '#invalid'
-          }
         ]
       '3':
         'name': 'punctuation.definition.operator.function.infix.end.curry'
-  'infix_operator':
-    'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)(\\.))?(\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))'
+  'infix_type_constructor':
+    'match': '(`)((?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[A-Z](?:\\w|\')*)(`)'
     'captures':
       '1':
-        'name': 'entity.name.class.curry'
+        'name': 'punctuation.definition.constructor.infix.start.curry'
       '2':
-        'name': 'punctuation.separator.dot.curry'
+        'patterns': [
+          {
+            'include': '#type_constructor_name'
+          }
+        ]
       '3':
-        'name': 'entity.name.function.infix.curry'
+        'name': 'punctuation.definition.constructor.infix.end.curry'
   'invalid':
     'name': 'invalid.illegal.character-not-allowed-here.curry'
     'match': '\\S+'
@@ -404,11 +464,7 @@
     'patterns': [
       {
         'name': 'keyword.other.$0.curry'
-        'match': '(?<!\\w|\')(?:where|data|type|newtype|external|free)(?!\\w|\')'
-      }
-      {
-        'name': 'keyword.operator.$0.curry'
-        'match': '(?<!\\w|\')infix[lr]?(?!\\w|\')'
+        'match': '(?<!\\w|\')(?:where|data|type|newtype|external|free|infix[lr]?)(?!\\w|\')'
       }
       {
         'name': 'keyword.control.$0.curry'
@@ -454,7 +510,11 @@
           '1':
             'name': 'keyword.other.module.curry'
           '2':
-            'name': 'entity.name.class.curry'
+            'patterns': [
+              {
+                'include': '#module_name'
+              }
+            ]
       }
       {
         'include': '#type_name'
@@ -477,16 +537,19 @@
             'include': '#attribute_name'
           }
           {
+            'include': '#prefix_operator'
+          }
+          {
             'include': '#comma_separator'
           }
           {
-            'name': 'keyword.operator.wildcard.curry'
+            'name': 'keyword.other.wildcard.curry'
             'match': '\\.\\.'
           }
         ]
       }
       {
-        'include': '#infix_operator'
+        'include': '#prefix_operator'
       }
     ]
   'module_name':
@@ -495,16 +558,8 @@
   'numeric_literal':
     'patterns': [
       {
-        'name': 'constant.numeric.hexadecimal.curry'
-        'match': '0[xX][0-9A-Fa-f]+'
-      }
-      {
-        'name': 'constant.numeric.octal.curry'
-        'match': '0[oO][0-7]+'
-      }
-      {
         'name': 'constant.numeric.binary.curry'
-        'match': '0[bB][0-1]+'
+        'match': '0[bB][01]+'
       }
       {
         'name': 'constant.numeric.float.curry'
@@ -513,6 +568,14 @@
       {
         'name': 'constant.numeric.decimal.curry'
         'match': '[0-9]+'
+      }
+      {
+        'name': 'constant.numeric.hexadecimal.curry'
+        'match': '0[xX][0-9A-Fa-f]+'
+      }
+      {
+        'name': 'constant.numeric.octal.curry'
+        'match': '0[oO][0-7]+'
       }
     ]
   'operator':
@@ -545,6 +608,19 @@
         'match': '(?<=^|\\s)[A-Z_]+(?=\\s)'
       }
     ]
+  'prefix_operator':
+    'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)(\\.))?(\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))'
+    'captures':
+      '1':
+        'patterns': [
+          {
+            'include': '#module_name'
+          }
+        ]
+      '2':
+        'name': 'punctuation.separator.dot.curry'
+      '3':
+        'name': 'entity.name.function.infix.curry'
   'quoted_character':
     'name': 'string.quoted.single.curry'
     'match': '(\')((?:\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\"\']))|(?:\\\\[0-9]+)|(?:\\\\o[0-7]+)|(?:\\\\x[0-9A-Fa-f]+)|(?:\\\\\\^[@-_])|[\\ -\\[\\]-~])(\')'
@@ -562,8 +638,8 @@
   'record_field_declaration':
     'name': 'meta.declaration.record-field.curry'
     'contentName': 'meta.type-signature.curry'
-    'begin': '((?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
-    'end': '(?=,?\\s*((?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?[a-z](?:\\w|\')*)|(?:(?:(?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*\\.)?\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\\-=<>?./|\\\\:])|})'
+    'begin': '((?:(?:[a-z](?:\\w|\')*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:[a-z](?:\\w|\')*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
+    'end': '(?=,?\\s*((?:(?:[a-z](?:\\w|\')*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:[a-z](?:\\w|\')*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\\-=<>?./|\\\\:])|})'
     'beginCaptures':
       '1':
         'patterns': [
@@ -571,7 +647,7 @@
             'include': '#attribute_name'
           }
           {
-            'include': '#infix_operator'
+            'include': '#prefix_operator'
           }
           {
             'include': '#comma_separator'
@@ -622,7 +698,11 @@
     'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)(\\.))?([A-Z](?:\\w|\')*)'
     'captures':
       '1':
-        'name': 'entity.name.class.curry'
+        'patterns': [
+          {
+            'include': '#module_name'
+          }
+        ]
       '2':
         'name': 'punctuation.separator.dot.curry'
       '3':
@@ -637,7 +717,11 @@
     'match': '(?:((?:[A-Z](?:\\w|\')*\\.)*[A-Z](?:\\w|\')*)(\\.))?([A-Z](?:\\w|\')*)'
     'captures':
       '1':
-        'name': 'entity.name.class.curry'
+        'patterns': [
+          {
+            'include': '#module_name'
+          }
+        ]
       '2':
         'name': 'punctuation.separator.dot.curry'
       '3':
@@ -665,7 +749,10 @@
       }
       {
         'name': 'variable.other.generic-type.curry'
-        'match': '(?:[a-z](?:\\w|\')*)|_'
+        'match': '[a-z](?:\\w|\')*'
+      }
+      {
+        'include': '#wildcard'
       }
       {
         'include': '#type_name'
@@ -674,3 +761,6 @@
   'unit':
     'name': 'constant.language.unit.curry'
     'match': '\\(\\)'
+  'wildcard':
+    'name': 'variable.other.wildcard.curry'
+    'match': '_'
