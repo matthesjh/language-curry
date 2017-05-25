@@ -1,3 +1,14 @@
+## 1.2.0 (2017-05-25)
+
+* Added support for type annotations
+* Added support for prefix operators in data declarations
+* Added support for qualified operators
+* Added highlighting for preprocessor keywords
+* Changed highlighting of several keywords
+* Changed highlighting of operators from the `Prelude`
+* Fixed incorrect highlighting of numeric literals
+* Fixed recognition of qualified prefix operators
+
 ## 1.1.0 (2017-05-22)
 
 * Added highlighting for wildcards in expressions (`_`) and export list (`..`)
