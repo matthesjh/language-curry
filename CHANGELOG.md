@@ -1,3 +1,8 @@
+## 1.2.1 (2017-05-28)
+
+* Added support for infix type constructors in data declarations
+* Fixed a bug where only a part of an operator was highlighted
+
 ## 1.2.0 (2017-05-25)
 
 * Added support for type annotations
