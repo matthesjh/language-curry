@@ -48,14 +48,14 @@
         'patterns': [
           {
             'begin': '---'
-            'end': '$'
+            'end': '\\n'
             'beginCaptures':
               '0':
                 'name': 'punctuation.definition.comment.documentation.currydoc.curry'
             'patterns': [
               {
                 'name': 'keyword.other.documentation.currydoc.$1.curry'
-                'match': '@(author|category|return|version)(?=\\s)'
+                'match': '@(author|category|return|version)\\b'
               }
               {
                 'match': '(@cons)\\s+(\\S+)'
@@ -126,7 +126,7 @@
           {
             'name': 'comment.line.double-dash.curry'
             'begin': '--'
-            'end': '$'
+            'end': '\\n'
             'beginCaptures':
               '0':
                 'name': 'punctuation.definition.comment.curry'
@@ -196,7 +196,7 @@
     ]
   'curry_preprocessor':
     'name': 'meta.preprocessor.curry'
-    'begin': '(``)(format|html|printf|regex|sql|xml)\\s'
+    'begin': '(``)(format|html|printf|regex|sql|xml)\\b'
     'end': '\'\''
     'beginCaptures':
       '1':
@@ -217,20 +217,20 @@
         ]
       }
       {
-        'begin': '(?<=xml)'
-        'end': '(?=\'\')'
-        'patterns': [
-          {
-            'include': 'text.xml'
-          }
-        ]
-      }
-      {
         'begin': '(?<=sql)'
         'end': '(?=\'\')'
         'patterns': [
           {
             'include': 'source.sql'
+          }
+        ]
+      }
+      {
+        'begin': '(?<=xml)'
+        'end': '(?=\'\')'
+        'patterns': [
+          {
+            'include': 'text.xml'
           }
         ]
       }
@@ -288,8 +288,8 @@
       }
       {
         'contentName': 'meta.type-signature.curry'
-        'begin': '(?<==|\\|)\\s*((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:])|{-)[^|{])*?)((?:`[A-Z][\\w\']*`)|(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:(])(?!(?:--+|\\.|->|\\|)(?![)~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![)~!@#$%^&*+\\-=<>?./|\\\\:])))'
-        'end': '$|(?={|\\|)'
+        'begin': '(?<==|\\|)((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:])|{-)[^|{])*?)((?:`[A-Z][\\w\']*`)|(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:(])(?!(?:--+|\\.|->|\\|)(?![)~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![)~!@#$%^&*+\\-=<>?./|\\\\:])))'
+        'end': '(?={|\\|)|$'
         'beginCaptures':
           '1':
             'name': 'meta.type-signature.curry'
@@ -316,7 +316,7 @@
       {
         'contentName': 'meta.type-signature.curry'
         'begin': '(?<==|\\|)\\s*((?:[A-Z][\\w\']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))'
-        'end': '$|(?={|\\|)'
+        'end': '(?={|\\|)|$'
         'beginCaptures':
           '1':
             'patterns': [
@@ -437,6 +437,9 @@
         'name': 'keyword.other.import.curry'
     'patterns': [
       {
+        'include': '#comment'
+      }
+      {
         'include': '#module'
       }
       {
@@ -445,9 +448,6 @@
       {
         'name': 'keyword.other.$0.curry'
         'match': '(?<![\\w\'])(?:as|hiding|qualified)(?![\\w\'])'
-      }
-      {
-        'include': '#comment'
       }
     ]
   'infix_function':
