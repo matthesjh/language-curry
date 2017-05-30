@@ -120,8 +120,11 @@
         ]
       }
       {
-        'begin': '(?=--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))'
+        'begin': '(^[ \\t]+)?(?=--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))'
         'end': '(?!\\G)'
+        'beginCaptures':
+          '1':
+            'name': 'punctuation.whitespace.comment.leading.curry'
         'patterns': [
           {
             'name': 'comment.line.double-dash.curry'
@@ -140,6 +143,9 @@
   'curry_expression':
     'patterns': [
       {
+        'include': '#comment'
+      }
+      {
         'include': '#infix_function'
       }
       {
@@ -152,9 +158,6 @@
         'include': '#empty_list'
       }
       {
-        'include': '#keyword'
-      }
-      {
         'include': '#wildcard'
       }
       {
@@ -164,7 +167,7 @@
         'include': '#quoted_character'
       }
       {
-        'include': '#comment'
+        'include': '#numeric_literal'
       }
       {
         'include': '#prefix_operator'
@@ -173,16 +176,13 @@
         'include': '#comma_separator'
       }
       {
-        'include': '#numeric_literal'
-      }
-      {
-        'include': '#assignment_keyword'
-      }
-      {
         'include': '#pipe_separator'
       }
       {
         'include': '#type_annotation'
+      }
+      {
+        'include': '#keyword'
       }
       {
         'include': '#operator'
@@ -264,7 +264,7 @@
     ]
   'data_declaration':
     'name': 'meta.declaration.$2.curry'
-    'begin': '^([ \\t]*)(data|newtype)\\s+((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:])|{-)[^=])*)'
+    'begin': '^([ \\t]*)(data|newtype)\\s+((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[^={])*)'
     'end': '^(?!\\1[ \\t]|[ \\t]*$)'
     'beginCaptures':
       '2':
@@ -288,7 +288,7 @@
       }
       {
         'contentName': 'meta.type-signature.curry'
-        'begin': '(?<==|\\|)((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:])|{-)[^|{])*?)((?:`[A-Z][\\w\']*`)|(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:(])(?!(?:--+|\\.|->|\\|)(?![)~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![)~!@#$%^&*+\\-=<>?./|\\\\:])))'
+        'begin': '(?<==|\\|)((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[^|{])*?)((?:`[A-Z][\\w\']*`)|(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:(])(?!(?:--+|->|\\|)(?![)~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![)~!@#$%^&*+\\-=<>?./|\\\\:])))'
         'end': '(?={|\\|)|$'
         'beginCaptures':
           '1':
@@ -487,9 +487,43 @@
       }
       {
         'name': 'keyword.control.$0.curry'
-        'match': '(?<![\\w\'])(?:do|if|then|else|case|fcase|of|let|in)(?![\\w\'])'
+        'match': '(?<![\\w\'])(?:case|do|else|fcase|if|in|let|of|then)(?![\\w\'])'
+      }
+      {
+        'name': 'keyword.other.arrow-left.curry'
+        'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])<-(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
+      }
+      {
+        'name': 'keyword.other.arrow-right.curry'
+        'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])->(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
+      }
+      {
+        'name': 'keyword.other.lambda.curry'
+        'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])\\\\(?![!@#$%^&*+\\-=<>?./|\\\\:])'
+      }
+      {
+        'name': 'keyword.other.range.curry'
+        'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])\\.\\.(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
+      }
+      {
+        'name': 'keyword.other.list-constructor.curry'
+        'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:]):(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
+      }
+      {
+        'name': 'keyword.other.as-pattern.curry'
+        'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])@(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
+      }
+      {
+        'name': 'keyword.other.tilde.curry'
+        'match': '(?<![~!@#$%^&*+\\-=<>?./|:])~(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
+      }
+      {
+        'include': '#assignment_keyword'
       }
     ]
+  'module':
+    'name': 'entity.name.class.curry'
+    'match': '(?:[A-Z][\\w\']*\\.)*[A-Z][\\w\']*'
   'module_declaration':
     'name': 'meta.declaration.module.curry'
     'begin': '^([ \\t]*)(module)\\s'
@@ -540,7 +574,7 @@
         'include': '#comma_separator'
       }
       {
-        'name': 'meta.other.constructor-list.curry'
+        'name': 'meta.constructor-list.curry'
         'begin': '\\((?!(?!--+\\)|\\.\\.\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))'
         'end': '\\)'
         'patterns': [
@@ -566,9 +600,6 @@
         'include': '#prefix_operator'
       }
     ]
-  'module':
-    'name': 'entity.name.class.curry'
-    'match': '(?:[A-Z][\\w\']*\\.)*[A-Z][\\w\']*'
   'numeric_literal':
     'patterns': [
       {
@@ -594,7 +625,7 @@
     ]
   'operator':
     'name': 'keyword.operator.curry'
-    'match': '(?:((?:[A-Z][\\w\']*\\.)*[A-Z][\\w\']*)(\\.))?((?<![~!@#$%^&*+\\-=<>?/|\\\\:])(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))'
+    'match': '(?:((?:[A-Z][\\w\']*\\.)*[A-Z][\\w\']*)(\\.))?((?<![~!@#$%^&*+\\-=<>?./|\\\\:])(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))'
     'captures':
       '1':
         'name': 'entity.name.class.curry'
@@ -605,34 +636,6 @@
           {
             'name': 'support.function.prelude.curry'
             'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])(?:!!|\\$|\\$!|\\$!!|\\$#|\\$##|&|&&|&>|\\*|\\+|\\+\\+|-|\\.|/=|<|<=|=:<=|=:=|==|>|>=|>>|>>=|\\?|\\|\\|)(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
-          }
-          {
-            'name': 'keyword.other.arrow-left.curry'
-            'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])<-(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
-          }
-          {
-            'name': 'keyword.other.arrow-right.curry'
-            'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])->(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
-          }
-          {
-            'name': 'keyword.other.lambda.curry'
-            'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])\\\\(?![!@#$%^&*+\\-=<>?./|\\\\:])'
-          }
-          {
-            'name': 'keyword.other.range.curry'
-            'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])\\.\\.(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
-          }
-          {
-            'name': 'keyword.other.list-constructor.curry'
-            'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:]):(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
-          }
-          {
-            'name': 'keyword.other.as-pattern.curry'
-            'match': '(?<![~!@#$%^&*+\\-=<>?./|\\\\:])@(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
-          }
-          {
-            'name': 'keyword.other.tilde.curry'
-            'match': '(?<![~!@#$%^&*+\\-=<>?./|:])~(?![~!@#$%^&*+\\-=<>?./|\\\\:])'
           }
         ]
   'pipe_separator':
@@ -719,6 +722,21 @@
         'include': '#escaped_character'
       }
     ]
+  'type':
+    'match': '(?:((?:[A-Z][\\w\']*\\.)*[A-Z][\\w\']*)(\\.))?([A-Z][\\w\']*)'
+    'captures':
+      '1':
+        'name': 'entity.name.class.curry'
+      '2':
+        'name': 'punctuation.separator.dot.curry'
+      '3':
+        'name': 'entity.name.type.curry'
+        'patterns': [
+          {
+            'name': 'support.type.prelude.$0.curry'
+            'match': '(?<![\\w\'])(?:Bool|Char|DET|Either|Float|Int|IO|IOError|Maybe|Ordering|String|Success)(?![\\w\'])'
+          }
+        ]
   'type_alias':
     'name': 'meta.declaration.type.curry'
     'contentName': 'meta.type-signature.curry'
@@ -751,7 +769,7 @@
             ]
       }
       {
-        'match': '((?<![~!@#$%^&*+\\-=<>?./|\\\\:])::(?![~!@#$%^&*+\\-=<>?./|\\\\:]))(.*?)(?=(?<![~!@#$%^&*+\\-=<>?./|\\\\:])(?:--+|{-|<-|=)(?![~!@#$%^&*+\\-=<>?./|\\\\:])|$)'
+        'match': '((?<![~!@#$%^&*+\\-=<>?./|\\\\:])::(?![~!@#$%^&*+\\-=<>?./|\\\\:]))(.*?)(?=(?<![~!@#$%^&*+\\-=<>?./|\\\\:])(?:--+|<-|=|\\|)(?![~!@#$%^&*+\\-=<>?./|\\\\:])|(?<![\\w\'])(?:else|of|then|where)(?![\\w\'])|{-|$)'
         'captures':
           '1':
             'name': 'keyword.other.double-colon.curry'
@@ -776,22 +794,7 @@
         'patterns': [
           {
             'name': 'support.tag.prelude.$0.curry'
-            'match': '(?<![\\w\'])(?:LT|EQ|GT|Left|Right|Nothing|Just|True|False|IOError|UserError|FailError|NondetError)(?![\\w\'])'
-          }
-        ]
-  'type':
-    'match': '(?:((?:[A-Z][\\w\']*\\.)*[A-Z][\\w\']*)(\\.))?([A-Z][\\w\']*)'
-    'captures':
-      '1':
-        'name': 'entity.name.class.curry'
-      '2':
-        'name': 'punctuation.separator.dot.curry'
-      '3':
-        'name': 'entity.name.type.curry'
-        'patterns': [
-          {
-            'name': 'support.type.prelude.$0.curry'
-            'match': '(?<![\\w\'])(?:Bool|Char|DET|Either|Float|Int|IO|IOError|Maybe|Ordering|String|Success)(?![\\w\'])'
+            'match': '(?<![\\w\'])(?:EQ|FailError|False|GT|IOError|Just|Left|LT|NondetError|Nothing|Right|True|UserError)(?![\\w\'])'
           }
         ]
   'type_signature':
