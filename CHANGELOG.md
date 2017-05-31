@@ -1,3 +1,8 @@
+## 1.2.2 (2017-05-31)
+
+* Improved recognition of type annotations without surrounding parentheses
+* Removed `keyword.operator` scope from operator module qualifier
+
 ## 1.2.1 (2017-05-28)
 
 * Added support for infix type constructors in data declarations
