@@ -36,6 +36,21 @@
         'include': '#block_comment'
       }
     ]
+  'bracket':
+    'patterns': [
+      {
+        'name': 'punctuation.bracket.round.curry'
+        'match': '\\(|\\)'
+      }
+      {
+        'name': 'punctuation.bracket.square.curry'
+        'match': '\\[|\\]'
+      }
+      {
+        'name': 'punctuation.bracket.curly.curry'
+        'match': '{|}'
+      }
+    ]
   'comma_separator':
     'name': 'punctuation.separator.comma.curry'
     'match': ','
@@ -182,6 +197,9 @@
         'include': '#type_annotation'
       }
       {
+        'include': '#bracket'
+      }
+      {
         'include': '#keyword'
       }
       {
@@ -289,7 +307,7 @@
       {
         'contentName': 'meta.type-signature.curry'
         'begin': '(?<=[=|])((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[^|{])*?)((?:`[A-Z][\\w\']*`)|(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:(])(?!(?:--+|->|\\|)(?![)~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![)~!@#$%^&*+\\-=<>?./|\\\\:])))'
-        'end': '(?=[|{])|$'
+        'end': '^|(?=[|{])'
         'beginCaptures':
           '1':
             'name': 'meta.type-signature.curry'
@@ -316,7 +334,7 @@
       {
         'contentName': 'meta.type-signature.curry'
         'begin': '(?<=[=|])\\s*((?:[A-Z][\\w\']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))'
-        'end': '(?=[|{])|$'
+        'end': '^|(?=[|{])'
         'beginCaptures':
           '1':
             'patterns': [
@@ -552,6 +570,12 @@
     'name': 'meta.declaration.exports.curry'
     'begin': '\\('
     'end': '\\)'
+    'beginCaptures':
+      '0':
+        'name': 'punctuation.definition.exports.begin.curry'
+    'endCaptures':
+      '0':
+        'name': 'punctuation.definition.exports.end.curry'
     'patterns': [
       {
         'include': '#comment'
@@ -577,7 +601,16 @@
         'name': 'meta.constructor-list.curry'
         'begin': '\\((?!(?!--+\\)|\\.\\.\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))'
         'end': '\\)'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.constructor-list.begin.curry'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.definition.constructor-list.end.curry'
         'patterns': [
+          {
+            'include': '#comment'
+          }
           {
             'include': '#type_constructor'
           }
@@ -759,14 +792,18 @@
   'type_annotation':
     'patterns': [
       {
-        'match': '\\(((?<a>(?:[^()]|\\(\\g<a>\\))*)(?<![~!@#$%^&*+\\-=<>?./|\\\\:])::(?![~!@#$%^&*+\\-=<>?./|\\\\:])(?<b>(?:[^()]|\\(\\g<b>\\))*))\\)'
+        'match': '(\\()((?<a>(?:[^()]|\\(\\g<a>\\))*)(?<![~!@#$%^&*+\\-=<>?./|\\\\:])::(?![~!@#$%^&*+\\-=<>?./|\\\\:])(?<b>(?:[^()]|\\(\\g<b>\\))*))(\\))'
         'captures':
           '1':
+            'name': 'punctuation.bracket.round.curry'
+          '2':
             'patterns': [
               {
                 'include': '#curry_expression'
               }
             ]
+          '5':
+            'name': 'punctuation.bracket.round.curry'
       }
       {
         'match': '((?<![~!@#$%^&*+\\-=<>?./|\\\\:])::(?![~!@#$%^&*+\\-=<>?./|\\\\:]))(.*?)(?=(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:])(?:--+|<-|=|\\|)(?![~!@#$%^&*+\\-=<>?./|\\\\:]))|(?:(?<![\\w\'])(?:else|in|of|then|where)(?![\\w\']))|{-|\\n)'
@@ -821,6 +858,9 @@
       }
       {
         'include': '#type'
+      }
+      {
+        'include': '#bracket'
       }
     ]
   'unit':
