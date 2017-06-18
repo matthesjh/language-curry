@@ -1,3 +1,9 @@
+## 1.2.3 (2017-06-18)
+
+* Added scope selectors for brackets
+* Improved recognition of keywords in the `increaseIndentPattern`
+* Removed `keyword.other` scope from the `\~` operator
+
 ## 1.2.2 (2017-05-31)
 
 * Improved recognition of type annotations without surrounding parentheses
