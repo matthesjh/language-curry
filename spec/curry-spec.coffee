@@ -152,7 +152,6 @@ describe 'language-curry', ->
     expect(tokens[18]).toEqual value: '80.275', scopes: ['source.curry', 'constant.numeric.float.curry']
 
   it 'tokenizes imports', ->
-
     {tokens} = grammar.tokenizeLine 'import Module'
 
     expect(tokens[0]).toEqual value: 'import', scopes: ['source.curry', 'meta.import.curry', 'keyword.other.import.curry']
@@ -238,7 +237,7 @@ describe 'language-curry', ->
     expect(lines[1][15]).toEqual value: '..', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'keyword.other.export-wildcard.curry']
     expect(lines[1][16]).toEqual value: ')', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
     expect(lines[1][17]).toEqual value: ',', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
-    expect(lines[1][19]).toEqual value: 'Point', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry',]
+    expect(lines[1][19]).toEqual value: 'Point', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
     expect(lines[1][21]).toEqual value: '(', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
     expect(lines[1][22]).toEqual value: 'px', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.other.attribute-name.curry']
     expect(lines[1][23]).toEqual value: ',', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.separator.comma.curry']
@@ -265,3 +264,89 @@ describe 'language-curry', ->
     expect(lines[3][10]).toEqual value: '--', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry', 'punctuation.definition.comment.curry']
     expect(lines[3][11]).toEqual value: ' This is another comment!', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry']
     expect(lines[4][1]).toEqual value: ')', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'punctuation.definition.exports.end.curry']
+
+  it 'tokenizes module declarations', ->
+    {tokens} = grammar.tokenizeLine 'module Prelude where'
+
+    expect(tokens[0]).toEqual value: 'module', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.module.curry']
+    expect(tokens[2]).toEqual value: 'Prelude', scopes: ['source.curry', 'meta.declaration.module.curry', 'entity.name.class.curry']
+    expect(tokens[4]).toEqual value: 'where', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.where.curry']
+
+    {tokens} = grammar.tokenizeLine 'module Prelude (Bool (..), Either (Left, Right), Maybe, map, (++)) where'
+
+    expect(tokens[0]).toEqual value: 'module', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.module.curry']
+    expect(tokens[2]).toEqual value: 'Prelude', scopes: ['source.curry', 'meta.declaration.module.curry', 'entity.name.class.curry']
+    expect(tokens[4]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.definition.exports.begin.curry']
+    expect(tokens[5]).toEqual value: 'Bool', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry', 'support.type.prelude.Bool.curry']
+    expect(tokens[7]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
+    expect(tokens[8]).toEqual value: '..', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'keyword.other.export-wildcard.curry']
+    expect(tokens[9]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
+    expect(tokens[10]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[12]).toEqual value: 'Either', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry', 'support.type.prelude.Either.curry']
+    expect(tokens[14]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
+    expect(tokens[15]).toEqual value: 'Left', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.tag.curry', 'support.tag.prelude.Left.curry']
+    expect(tokens[16]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[18]).toEqual value: 'Right', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.tag.curry', 'support.tag.prelude.Right.curry']
+    expect(tokens[19]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
+    expect(tokens[20]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[22]).toEqual value: 'Maybe', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry', 'support.type.prelude.Maybe.curry']
+    expect(tokens[23]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[25]).toEqual value: 'map', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.curry']
+    expect(tokens[26]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[28]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.prefix.begin.curry']
+    expect(tokens[29]).toEqual value: '++', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.prefix.curry']
+    expect(tokens[30]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.prefix.end.curry']
+    expect(tokens[31]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.definition.exports.end.curry']
+    expect(tokens[33]).toEqual value: 'where', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.where.curry']
+
+    lines = grammar.tokenizeLines """
+      module Module
+        ( Attr ((:=)), Color (..), Point (px, py), Tree (Leaf, Node), XML
+        -- This is a comment!
+        , showAttr, (:->) -- This is another comment!
+        ) where
+    """
+
+    expect(lines[0][0]).toEqual value: 'module', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.module.curry']
+    expect(lines[0][2]).toEqual value: 'Module', scopes: ['source.curry', 'meta.declaration.module.curry', 'entity.name.class.curry']
+    expect(lines[1][1]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.definition.exports.begin.curry']
+    expect(lines[1][3]).toEqual value: 'Attr', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
+    expect(lines[1][5]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
+    expect(lines[1][6]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.begin.curry']
+    expect(lines[1][7]).toEqual value: ':=', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.curry']
+    expect(lines[1][8]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.end.curry']
+    expect(lines[1][9]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
+    expect(lines[1][10]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(lines[1][12]).toEqual value: 'Color', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
+    expect(lines[1][14]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
+    expect(lines[1][15]).toEqual value: '..', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'keyword.other.export-wildcard.curry']
+    expect(lines[1][16]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
+    expect(lines[1][17]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(lines[1][19]).toEqual value: 'Point', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
+    expect(lines[1][21]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
+    expect(lines[1][22]).toEqual value: 'px', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.other.attribute-name.curry']
+    expect(lines[1][23]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.separator.comma.curry']
+    expect(lines[1][25]).toEqual value: 'py', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.other.attribute-name.curry']
+    expect(lines[1][26]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
+    expect(lines[1][27]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(lines[1][29]).toEqual value: 'Tree', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
+    expect(lines[1][31]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
+    expect(lines[1][32]).toEqual value: 'Leaf', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.tag.curry']
+    expect(lines[1][33]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.separator.comma.curry']
+    expect(lines[1][35]).toEqual value: 'Node', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.tag.curry']
+    expect(lines[1][36]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
+    expect(lines[1][37]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(lines[1][39]).toEqual value: 'XML', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
+    expect(lines[2][0]).toEqual value: '  ', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.whitespace.comment.leading.curry']
+    expect(lines[2][1]).toEqual value: '--', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry', 'punctuation.definition.comment.curry']
+    expect(lines[2][2]).toEqual value: ' This is a comment!', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry']
+    expect(lines[3][1]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(lines[3][3]).toEqual value: 'showAttr', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.curry']
+    expect(lines[3][4]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(lines[3][6]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.prefix.begin.curry']
+    expect(lines[3][7]).toEqual value: ':->', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.prefix.curry']
+    expect(lines[3][8]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.prefix.end.curry']
+    expect(lines[3][10]).toEqual value: '--', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry', 'punctuation.definition.comment.curry']
+    expect(lines[3][11]).toEqual value: ' This is another comment!', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry']
+    expect(lines[4][1]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.definition.exports.end.curry']
+    expect(lines[4][3]).toEqual value: 'where', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.where.curry']
