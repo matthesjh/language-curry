@@ -242,7 +242,7 @@ describe 'language-curry', ->
 
     lines = grammar.tokenizeLines """
       import Module
-        ( Attr ((:=)), Color (..), Point (px, py), Tree (Leaf, Node), XML
+        ( Attr ((:=:)), Color (..), Point (px, py), Tree (Leaf, Node), XML
         -- This is a comment!
         , showAttr, (:->) -- This is another comment!
         )
@@ -254,7 +254,7 @@ describe 'language-curry', ->
     expect(lines[1][3]).toEqual value: 'Attr', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
     expect(lines[1][5]).toEqual value: '(', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
     expect(lines[1][6]).toEqual value: '(', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.begin.curry']
-    expect(lines[1][7]).toEqual value: ':=', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.curry']
+    expect(lines[1][7]).toEqual value: ':=:', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.curry']
     expect(lines[1][8]).toEqual value: ')', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.end.curry']
     expect(lines[1][9]).toEqual value: ')', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
     expect(lines[1][10]).toEqual value: ',', scopes: ['source.curry', 'meta.import.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
@@ -327,7 +327,7 @@ describe 'language-curry', ->
 
     lines = grammar.tokenizeLines """
       module Module
-        ( Attr ((:=)), Color (..), Point (px, py), Tree (Leaf, Node), XML
+        ( Attr ((:=:)), Color (..), Point (px, py), Tree (Leaf, Node), XML
         -- This is a comment!
         , showAttr, (:->) -- This is another comment!
         ) where
@@ -339,7 +339,7 @@ describe 'language-curry', ->
     expect(lines[1][3]).toEqual value: 'Attr', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.type.curry']
     expect(lines[1][5]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.begin.curry']
     expect(lines[1][6]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.begin.curry']
-    expect(lines[1][7]).toEqual value: ':=', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.curry']
+    expect(lines[1][7]).toEqual value: ':=:', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.curry']
     expect(lines[1][8]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'entity.name.function.prefix.end.curry']
     expect(lines[1][9]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'meta.constructor-list.curry', 'punctuation.definition.constructor-list.end.curry']
     expect(lines[1][10]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
@@ -386,6 +386,13 @@ describe 'language-curry', ->
     expect(tokens[6]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
     expect(tokens[7]).toEqual value: 'Char', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Char.curry']
     expect(tokens[8]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+
+    {tokens} = grammar.tokenizeLine 'type VarIdx = Int'
+
+    expect(tokens[0]).toEqual value: 'type', scopes: ['source.curry', 'meta.declaration.type.curry', 'keyword.other.type.curry']
+    expect(tokens[2]).toEqual value: 'VarIdx', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(tokens[4]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'keyword.other.assignment.curry']
+    expect(tokens[6]).toEqual value: 'Int', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Int.curry']
 
     {tokens} = grammar.tokenizeLine 'type Subst f = FM VarIdx (Term f)'
 
@@ -443,3 +450,146 @@ describe 'language-curry', ->
     expect(lines[2][8]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
     expect(lines[2][9]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
     expect(lines[2][10]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.type.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+
+  it 'tokenizes data declarations', ->
+    {tokens} = grammar.tokenizeLine 'data Bool = False | True'
+
+    expect(tokens[0]).toEqual value: 'data', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.data.curry']
+    expect(tokens[2]).toEqual value: 'Bool', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Bool.curry']
+    expect(tokens[4]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.assignment.curry']
+    expect(tokens[6]).toEqual value: 'False', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry', 'support.tag.prelude.False.curry']
+    expect(tokens[8]).toEqual value: '|', scopes: ['source.curry', 'meta.declaration.data.curry', 'punctuation.separator.pipe.curry']
+    expect(tokens[10]).toEqual value: 'True', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry', 'support.tag.prelude.True.curry']
+
+    {tokens} = grammar.tokenizeLine 'data Either a b = Left a | Right b'
+
+    expect(tokens[0]).toEqual value: 'data', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.data.curry']
+    expect(tokens[2]).toEqual value: 'Either', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Either.curry']
+    expect(tokens[4]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[6]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[8]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.assignment.curry']
+    expect(tokens[10]).toEqual value: 'Left', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry', 'support.tag.prelude.Left.curry']
+    expect(tokens[12]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[14]).toEqual value: '|', scopes: ['source.curry', 'meta.declaration.data.curry', 'punctuation.separator.pipe.curry']
+    expect(tokens[16]).toEqual value: 'Right', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry', 'support.tag.prelude.Right.curry']
+    expect(tokens[18]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    lines = grammar.tokenizeLines """
+      data Tree a = Leaf a
+                  | Tree a :+: Tree a
+    """
+
+    expect(lines[0][0]).toEqual value: 'data', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.data.curry']
+    expect(lines[0][2]).toEqual value: 'Tree', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[0][4]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[0][6]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.assignment.curry']
+    expect(lines[0][8]).toEqual value: 'Leaf', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry']
+    expect(lines[0][10]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[1][1]).toEqual value: '|', scopes: ['source.curry', 'meta.declaration.data.curry', 'punctuation.separator.pipe.curry']
+    expect(lines[1][3]).toEqual value: 'Tree', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[1][5]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[1][7]).toEqual value: ':+:', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.operator.curry']
+    expect(lines[1][9]).toEqual value: 'Tree', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[1][11]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    {tokens} = grammar.tokenizeLine 'data Attr = (:=:) String String'
+
+    expect(tokens[0]).toEqual value: 'data', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.data.curry']
+    expect(tokens[2]).toEqual value: 'Attr', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(tokens[4]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.assignment.curry']
+    expect(tokens[6]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.function.prefix.begin.curry']
+    expect(tokens[7]).toEqual value: ':=:', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.function.prefix.curry']
+    expect(tokens[8]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.function.prefix.end.curry']
+    expect(tokens[10]).toEqual value: 'String', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.String.curry']
+    expect(tokens[12]).toEqual value: 'String', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.String.curry']
+
+    {tokens} = grammar.tokenizeLine 'data List a = Empty | a `Cons` List a'
+
+    expect(tokens[0]).toEqual value: 'data', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.data.curry']
+    expect(tokens[2]).toEqual value: 'List', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(tokens[4]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[6]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.assignment.curry']
+    expect(tokens[8]).toEqual value: 'Empty', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry']
+    expect(tokens[10]).toEqual value: '|', scopes: ['source.curry', 'meta.declaration.data.curry', 'punctuation.separator.pipe.curry']
+    expect(tokens[12]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[14]).toEqual value: '`', scopes: ['source.curry', 'meta.declaration.data.curry', 'punctuation.definition.constructor.infix.begin.curry']
+    expect(tokens[15]).toEqual value: 'Cons', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry']
+    expect(tokens[16]).toEqual value: '`', scopes: ['source.curry', 'meta.declaration.data.curry', 'punctuation.definition.constructor.infix.end.curry']
+    expect(tokens[18]).toEqual value: 'List', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(tokens[20]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    lines = grammar.tokenizeLines """
+      data Term f
+        = TermVar VarIdx
+        | TermCons f [Term f]
+    """
+
+    expect(lines[0][0]).toEqual value: 'data', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.data.curry']
+    expect(lines[0][2]).toEqual value: 'Term', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[0][4]).toEqual value: 'f', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[1][1]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.assignment.curry']
+    expect(lines[1][3]).toEqual value: 'TermVar', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry']
+    expect(lines[1][5]).toEqual value: 'VarIdx', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[2][1]).toEqual value: '|', scopes: ['source.curry', 'meta.declaration.data.curry', 'punctuation.separator.pipe.curry']
+    expect(lines[2][3]).toEqual value: 'TermCons', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry']
+    expect(lines[2][5]).toEqual value: 'f', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[2][7]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(lines[2][8]).toEqual value: 'Term', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[2][10]).toEqual value: 'f', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[2][11]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+
+    lines = grammar.tokenizeLines """
+      data Point = Point { px :: Int
+                         , py :: Int }
+    """
+
+    expect(lines[0][0]).toEqual value: 'data', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.data.curry']
+    expect(lines[0][2]).toEqual value: 'Point', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[0][4]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.data.curry', 'keyword.other.assignment.curry']
+    expect(lines[0][6]).toEqual value: 'Point', scopes: ['source.curry', 'meta.declaration.data.curry', 'entity.name.tag.curry']
+    expect(lines[0][8]).toEqual value: '{', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'punctuation.definition.record.begin.curry']
+    expect(lines[0][10]).toEqual value: 'px', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'entity.other.attribute-name.curry']
+    expect(lines[0][12]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'keyword.other.double-colon.curry']
+    expect(lines[0][14]).toEqual value: 'Int', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Int.curry']
+    expect(lines[1][1]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'meta.type-signature.curry', 'punctuation.separator.comma.curry']
+    expect(lines[1][3]).toEqual value: 'py', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'entity.other.attribute-name.curry']
+    expect(lines[1][5]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'keyword.other.double-colon.curry']
+    expect(lines[1][7]).toEqual value: 'Int', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Int.curry']
+    expect(lines[1][9]).toEqual value: '}', scopes: ['source.curry', 'meta.declaration.data.curry', 'meta.declaration.record.curry', 'punctuation.definition.record.end.curry']
+
+    {tokens} = grammar.tokenizeLine 'newtype Name = Name String'
+
+    expect(tokens[0]).toEqual value: 'newtype', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'keyword.other.newtype.curry']
+    expect(tokens[2]).toEqual value: 'Name', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(tokens[4]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'keyword.other.assignment.curry']
+    expect(tokens[6]).toEqual value: 'Name', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'entity.name.tag.curry']
+    expect(tokens[8]).toEqual value: 'String', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.String.curry']
+
+    {tokens} = grammar.tokenizeLine 'newtype Func a b = Func (a -> b)'
+
+    expect(tokens[0]).toEqual value: 'newtype', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'keyword.other.newtype.curry']
+    expect(tokens[2]).toEqual value: 'Func', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(tokens[4]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[6]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[8]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'keyword.other.assignment.curry']
+    expect(tokens[10]).toEqual value: 'Func', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'entity.name.tag.curry']
+    expect(tokens[12]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[13]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[15]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[17]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[18]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+
+    lines = grammar.tokenizeLines """
+      newtype Person
+        = Person { name :: Name }
+    """
+
+    expect(lines[0][0]).toEqual value: 'newtype', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'keyword.other.newtype.curry']
+    expect(lines[0][2]).toEqual value: 'Person', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[1][1]).toEqual value: '=', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'keyword.other.assignment.curry']
+    expect(lines[1][3]).toEqual value: 'Person', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'entity.name.tag.curry']
+    expect(lines[1][5]).toEqual value: '{', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'punctuation.definition.record.begin.curry']
+    expect(lines[1][7]).toEqual value: 'name', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'entity.other.attribute-name.curry']
+    expect(lines[1][9]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'keyword.other.double-colon.curry']
+    expect(lines[1][11]).toEqual value: 'Name', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(lines[1][13]).toEqual value: '}', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'punctuation.definition.record.end.curry']
