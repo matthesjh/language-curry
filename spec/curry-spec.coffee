@@ -593,3 +593,181 @@ describe 'language-curry', ->
     expect(lines[1][9]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'keyword.other.double-colon.curry']
     expect(lines[1][11]).toEqual value: 'Name', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'meta.declaration.record-field.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
     expect(lines[1][13]).toEqual value: '}', scopes: ['source.curry', 'meta.declaration.newtype.curry', 'meta.declaration.record.curry', 'punctuation.definition.record.end.curry']
+
+  it 'tokenizes function type declarations', ->
+    {tokens} = grammar.tokenizeLine 'map :: (a -> b) -> [a] -> [b]'
+
+    expect(tokens[0]).toEqual value: 'map', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[5]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[7]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[9]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[10]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[12]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[14]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[15]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[16]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[18]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[20]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[21]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[22]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+
+    {tokens} = grammar.tokenizeLine 'fst :: (a, _) -> a'
+
+    expect(tokens[0]).toEqual value: 'fst', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[5]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[6]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[8]).toEqual value: '_', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.wildcard.curry']
+    expect(tokens[9]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[11]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[13]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    {tokens} = grammar.tokenizeLine 'snd :: (_, b) -> b'
+
+    expect(tokens[0]).toEqual value: 'snd', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[5]).toEqual value: '_', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.wildcard.curry']
+    expect(tokens[6]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[8]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[9]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[11]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[13]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    {tokens} = grammar.tokenizeLine 'zip :: [a] -> [b] -> [(a, b)]'
+
+    expect(tokens[0]).toEqual value: 'zip', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[5]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[6]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[8]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[10]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[11]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[12]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[14]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[16]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[17]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[18]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[19]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[21]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[22]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[23]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+
+    {tokens} = grammar.tokenizeLine 'null :: [_] -> Bool'
+
+    expect(tokens[0]).toEqual value: 'null', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[5]).toEqual value: '_', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.wildcard.curry']
+    expect(tokens[6]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[8]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[10]).toEqual value: 'Bool', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Bool.curry']
+
+    {tokens} = grammar.tokenizeLine '(!!) :: [a] -> Int -> a'
+
+    expect(tokens[0]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.begin.curry']
+    expect(tokens[1]).toEqual value: '!!', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.curry']
+    expect(tokens[2]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.end.curry']
+    expect(tokens[4]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[6]).toEqual value: '[', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[7]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[8]).toEqual value: ']', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.square.curry']
+    expect(tokens[10]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[12]).toEqual value: 'Int', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Int.curry']
+    expect(tokens[14]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[16]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    {tokens} = grammar.tokenizeLine 'maybe :: b -> (a -> b) -> Maybe a -> b'
+
+    expect(tokens[0]).toEqual value: 'maybe', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[6]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[8]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[9]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[11]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[13]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[14]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(tokens[16]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[18]).toEqual value: 'Maybe', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Maybe.curry']
+    expect(tokens[20]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[22]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[24]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    lines = grammar.tokenizeLines """
+      (>>=) :: IO a
+            -> (a -> IO b)
+            -> IO b
+    """
+
+    expect(lines[0][0]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.begin.curry']
+    expect(lines[0][1]).toEqual value: '>>=', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.curry']
+    expect(lines[0][2]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.end.curry']
+    expect(lines[0][4]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(lines[0][6]).toEqual value: 'IO', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.IO.curry']
+    expect(lines[0][8]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[1][1]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(lines[1][3]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(lines[1][4]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[1][6]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(lines[1][8]).toEqual value: 'IO', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.IO.curry']
+    expect(lines[1][10]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(lines[1][11]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'punctuation.bracket.round.curry']
+    expect(lines[2][1]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(lines[2][3]).toEqual value: 'IO', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.IO.curry']
+    expect(lines[2][5]).toEqual value: 'b', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    {tokens} = grammar.tokenizeLine 'putStr :: String -> IO ()'
+
+    expect(tokens[0]).toEqual value: 'putStr', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: 'String', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.String.curry']
+    expect(tokens[6]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[8]).toEqual value: 'IO', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.IO.curry']
+    expect(tokens[10]).toEqual value: '()', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'constant.language.unit.curry']
+
+    {tokens} = grammar.tokenizeLine 'otherwise :: Bool'
+
+    expect(tokens[0]).toEqual value: 'otherwise', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[2]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[4]).toEqual value: 'Bool', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Bool.curry']
+
+    {tokens} = grammar.tokenizeLine 'isLeaf, isNode :: Tree _ -> Bool'
+
+    expect(tokens[0]).toEqual value: 'isLeaf', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[1]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.function.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[3]).toEqual value: 'isNode', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[5]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[7]).toEqual value: 'Tree', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry']
+    expect(tokens[9]).toEqual value: '_', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.wildcard.curry']
+    expect(tokens[11]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[13]).toEqual value: 'Bool', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Bool.curry']
+
+    {tokens} = grammar.tokenizeLine '(?), max, min :: a -> a -> a'
+
+    expect(tokens[0]).toEqual value: '(', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.begin.curry']
+    expect(tokens[1]).toEqual value: '?', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.curry']
+    expect(tokens[2]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.prefix.end.curry']
+    expect(tokens[3]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.function.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[5]).toEqual value: 'max', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[6]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.function.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[8]).toEqual value: 'min', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[10]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[12]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[14]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[16]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+    expect(tokens[18]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[20]).toEqual value: 'a', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'variable.other.generic-type.curry']
+
+    {tokens} = grammar.tokenizeLine 'putChar::Char->IO()'
+
+    expect(tokens[0]).toEqual value: 'putChar', scopes: ['source.curry', 'meta.declaration.function.curry', 'entity.name.function.curry']
+    expect(tokens[1]).toEqual value: '::', scopes: ['source.curry', 'meta.declaration.function.curry', 'keyword.other.double-colon.curry']
+    expect(tokens[2]).toEqual value: 'Char', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.Char.curry']
+    expect(tokens[3]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
+    expect(tokens[4]).toEqual value: 'IO', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.IO.curry']
+    expect(tokens[5]).toEqual value: '()', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'constant.language.unit.curry']
