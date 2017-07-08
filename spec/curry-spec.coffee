@@ -95,7 +95,7 @@ describe 'language-curry', ->
 
   it 'tokenizes numeric literals', ->
     {tokens} = grammar.tokenizeLine '0b100 0B0101'
-    
+
     expect(tokens[0]).toEqual value: '0b100', scopes: ['source.curry', 'constant.numeric.binary.curry']
     expect(tokens[2]).toEqual value: '0B0101', scopes: ['source.curry', 'constant.numeric.binary.curry']
 
