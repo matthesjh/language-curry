@@ -1,3 +1,7 @@
+## 1.2.4 (2017-07-09)
+
+* Added `begin` and `end` scope selectors to parentheses of prefix operators
+
 ## 1.2.3 (2017-06-18)
 
 * Added scope selectors for brackets
