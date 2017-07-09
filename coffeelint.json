@@ -65,7 +65,7 @@
     "level": "warn"
   },
   "no_empty_functions": {
-    "level": "warn"
+    "level": "ignore"
   },
   "no_empty_param_list": {
     "level": "error"
