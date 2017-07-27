@@ -771,3 +771,54 @@ describe 'language-curry', ->
     expect(tokens[3]).toEqual value: '->', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'keyword.other.function-arrow.curry']
     expect(tokens[4]).toEqual value: 'IO', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'entity.name.type.curry', 'support.type.prelude.IO.curry']
     expect(tokens[5]).toEqual value: '()', scopes: ['source.curry', 'meta.declaration.function.curry', 'meta.type-signature.curry', 'constant.language.unit.curry']
+
+  it 'tokenizes infix[lr] declarations', ->
+    {tokens} = grammar.tokenizeLine 'infix 4 `elem`'
+
+    expect(tokens[0]).toEqual value: 'infix', scopes: ['source.curry', 'keyword.other.infix.curry']
+    expect(tokens[2]).toEqual value: '4', scopes: ['source.curry', 'constant.numeric.decimal.curry']
+    expect(tokens[4]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.begin.curry']
+    expect(tokens[5]).toEqual value: 'elem', scopes: ['source.curry', 'entity.name.function.curry']
+    expect(tokens[6]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.end.curry']
+
+    {tokens} = grammar.tokenizeLine 'infixl 9 !!'
+
+    expect(tokens[0]).toEqual value: 'infixl', scopes: ['source.curry', 'keyword.other.infixl.curry']
+    expect(tokens[2]).toEqual value: '9', scopes: ['source.curry', 'constant.numeric.decimal.curry']
+    expect(tokens[4]).toEqual value: '!!', scopes: ['source.curry', 'keyword.operator.curry', 'support.function.prelude.curry']
+
+    {tokens} = grammar.tokenizeLine 'infixl 7 `div`, `mod`'
+
+    expect(tokens[0]).toEqual value: 'infixl', scopes: ['source.curry', 'keyword.other.infixl.curry']
+    expect(tokens[2]).toEqual value: '7', scopes: ['source.curry', 'constant.numeric.decimal.curry']
+    expect(tokens[4]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.begin.curry']
+    expect(tokens[5]).toEqual value: 'div', scopes: ['source.curry', 'entity.name.function.curry']
+    expect(tokens[6]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.end.curry']
+    expect(tokens[7]).toEqual value: ',', scopes: ['source.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[9]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.begin.curry']
+    expect(tokens[10]).toEqual value: 'mod', scopes: ['source.curry', 'entity.name.function.curry']
+    expect(tokens[11]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.end.curry']
+
+    {tokens} = grammar.tokenizeLine 'infixr 3 &&'
+
+    expect(tokens[0]).toEqual value: 'infixr', scopes: ['source.curry', 'keyword.other.infixr.curry']
+    expect(tokens[2]).toEqual value: '3', scopes: ['source.curry', 'constant.numeric.decimal.curry']
+    expect(tokens[4]).toEqual value: '&&', scopes: ['source.curry', 'keyword.operator.curry', 'support.function.prelude.curry']
+
+    {tokens} = grammar.tokenizeLine 'infixr 0 $,`seq`,?'
+
+    expect(tokens[0]).toEqual value: 'infixr', scopes: ['source.curry', 'keyword.other.infixr.curry']
+    expect(tokens[2]).toEqual value: '0', scopes: ['source.curry', 'constant.numeric.decimal.curry']
+    expect(tokens[4]).toEqual value: '$', scopes: ['source.curry', 'keyword.operator.curry', 'support.function.prelude.curry']
+    expect(tokens[5]).toEqual value: ',', scopes: ['source.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[6]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.begin.curry']
+    expect(tokens[7]).toEqual value: 'seq', scopes: ['source.curry', 'entity.name.function.curry']
+    expect(tokens[8]).toEqual value: '`', scopes: ['source.curry', 'punctuation.definition.function.infix.end.curry']
+    expect(tokens[9]).toEqual value: ',', scopes: ['source.curry', 'punctuation.separator.comma.curry']
+    expect(tokens[10]).toEqual value: '?', scopes: ['source.curry', 'keyword.operator.curry', 'support.function.prelude.curry']
+
+    {tokens} = grammar.tokenizeLine 'infixr 6 :=:'
+
+    expect(tokens[0]).toEqual value: 'infixr', scopes: ['source.curry', 'keyword.other.infixr.curry']
+    expect(tokens[2]).toEqual value: '6', scopes: ['source.curry', 'constant.numeric.decimal.curry']
+    expect(tokens[4]).toEqual value: ':=:', scopes: ['source.curry', 'keyword.operator.curry']
