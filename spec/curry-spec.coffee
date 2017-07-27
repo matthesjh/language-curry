@@ -330,6 +330,7 @@ describe 'language-curry', ->
         ( Attr ((:=:)), Color (..), Point (px, py), Tree (Leaf, Node), XML
         -- This is a comment!
         , showAttr, (:->) -- This is another comment!
+        , module Prelude
         ) where
     """
 
@@ -374,8 +375,11 @@ describe 'language-curry', ->
     expect(lines[3][8]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.function.prefix.end.curry']
     expect(lines[3][10]).toEqual value: '--', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry', 'punctuation.definition.comment.curry']
     expect(lines[3][11]).toEqual value: ' This is another comment!', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'comment.line.double-dash.curry']
-    expect(lines[4][1]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.definition.exports.end.curry']
-    expect(lines[4][3]).toEqual value: 'where', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.where.curry']
+    expect(lines[4][1]).toEqual value: ',', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.separator.comma.curry']
+    expect(lines[4][3]).toEqual value: 'module', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'keyword.other.module.curry']
+    expect(lines[4][5]).toEqual value: 'Prelude', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'entity.name.class.curry']
+    expect(lines[5][1]).toEqual value: ')', scopes: ['source.curry', 'meta.declaration.module.curry', 'meta.declaration.exports.curry', 'punctuation.definition.exports.end.curry']
+    expect(lines[5][3]).toEqual value: 'where', scopes: ['source.curry', 'meta.declaration.module.curry', 'keyword.other.where.curry']
 
   it 'tokenizes type synonym declarations', ->
     {tokens} = grammar.tokenizeLine 'type String = [Char]'
