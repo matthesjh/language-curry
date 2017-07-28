@@ -1,3 +1,8 @@
+## 1.2.5 (2017-07-28)
+
+* Added new `modulex` snippet for module declarations with export list
+* Removed export list parentheses from existing `module` snippet
+
 ## 1.2.4 (2017-07-09)
 
 * Added `begin` and `end` scope selectors to parentheses of prefix operators
