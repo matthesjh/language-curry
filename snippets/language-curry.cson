@@ -90,10 +90,10 @@
     'body': 'import ${1:Module} hiding (${2:name})$0'
   'import qualified …':
     'prefix': 'impq'
-    'body': 'import qualified ${1:Module}${2: as ${3:Mod}}'
+    'body': 'import qualified ${1:Module}${2: as ${3:M}}'
   'import qualified … hiding …':
     'prefix': 'impqh'
-    'body': 'import qualified ${1:Module}${2: as ${3:Mod}} hiding (${4:name})$0'
+    'body': 'import qualified ${1:Module}${2: as ${3:M}} hiding (${4:name})$0'
   'let … in …':
     'prefix': 'let'
     'body': """
@@ -105,14 +105,17 @@
     'prefix': 'main'
     'body': """
       main :: IO ()
-      main = ${0:putStrLn "Hello World!"}
+      main = ${0:putStrLn "Hello, World!"}
     """
   'module … where':
     'prefix': 'module'
+    'body': 'module ${1:Name} where$0'
+  'module … (…) where':
+    'prefix': 'modulex'
     'body': """
       module ${1:Name}
-      \t(
-      \t) where
+      \t( ${2:exports}
+      \t) where$0
     """
   'newtype …':
     'prefix': 'new'
