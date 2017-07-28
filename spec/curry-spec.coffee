@@ -152,6 +152,13 @@ describe 'language-curry', ->
     expect(tokens[18]).toEqual value: '80.275', scopes: ['source.curry', 'constant.numeric.float.curry']
 
   it 'tokenizes pragmas', ->
+    {tokens} = grammar.tokenizeLine '{-# NoImplicitPrelude,FunctionalPatterns #-}'
+
+    expect(tokens[0]).toEqual value: '{-#', scopes: ['source.curry', 'meta.preprocessor.curry', 'punctuation.definition.preprocessor.begin.curry']
+    expect(tokens[2]).toEqual value: 'NoImplicitPrelude', scopes: ['source.curry', 'meta.preprocessor.curry', 'keyword.other.preprocessor.curry']
+    expect(tokens[4]).toEqual value: 'FunctionalPatterns', scopes: ['source.curry', 'meta.preprocessor.curry', 'keyword.other.preprocessor.curry']
+    expect(tokens[6]).toEqual value: '#-}', scopes: ['source.curry', 'meta.preprocessor.curry', 'punctuation.definition.preprocessor.end.curry']
+
     {tokens} = grammar.tokenizeLine '{-# OPTIONS_CYMAKE -Wno-incomplete-patterns -Wno-overlapping #-}'
 
     expect(tokens[0]).toEqual value: '{-#', scopes: ['source.curry', 'meta.preprocessor.curry', 'punctuation.definition.preprocessor.begin.curry']
