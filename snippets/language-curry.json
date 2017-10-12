@@ -1,0 +1,112 @@
+{
+  ".source.curry": {
+    "… -> …": {
+      "prefix": "->",
+      "body": "${1:expression} -> ${0:expression}"
+    },
+    "List Comprehension": {
+      "prefix": "[",
+      "body": "[${1:expression} | ${2:${3:pattern} <- ${4:expression}}"
+    },
+    "{-# … #-}": {
+      "prefix": "{-#",
+      "body": "{-# $1 #-"
+    },
+    "Lambda Expression": {
+      "prefix": "\\",
+      "body": "\\\\${1:pattern} -> ${0:expression}"
+    },
+    "… <- …": {
+      "prefix": "<-",
+      "body": "${1:pattern} <- ${0:expression}"
+    },
+    "Definition": {
+      "prefix": "=",
+      "body": "${1:name} ${2:pattern} = ${0:expression}"
+    },
+    "Guard": {
+      "prefix": "|",
+      "body": "| ${1:condition} = ${0:expression}"
+    },
+    "case … of …": {
+      "prefix": "case",
+      "body": "case ${1:expression} of\n\t${2:pattern} -> ${3:expression}\n\t${4:otherwise} -> ${0:expression}"
+    },
+    "data …": {
+      "prefix": "data",
+      "body": "data ${1:Type} = ${0:Other}"
+    },
+    "do …": {
+      "prefix": "do",
+      "body": "do\n\t${1:${2:pattern} <- ${3:expression}}\n\t${4:return ${5:expression}}"
+    },
+    "Data Documentation": {
+      "prefix": "docd",
+      "body": "--- ${1:comment}\n---\n--- @cons ${2:Name} - ${0:comment}"
+    },
+    "Function Documentation": {
+      "prefix": "docf",
+      "body": "--- ${1:comment}\n---\n--- @param ${2:name} - ${3:comment}\n---\n--- @return ${0:comment}"
+    },
+    "Module Documentation": {
+      "prefix": "docm",
+      "body": "--- ${1:comment}\n---\n--- @author ${2:author}\n--- @version ${3:version}\n--- @category ${0:category}"
+    },
+    "Record Documentation": {
+      "prefix": "docr",
+      "body": "--- ${1:comment}\n---\n--- @field ${2:name} - ${0:comment}"
+    },
+    "Function": {
+      "prefix": "func",
+      "body": "${1:name} :: ${2:Type}\n${1:name} ${3:pattern} = ${0:expression}"
+    },
+    "if … then … else …": {
+      "prefix": "if",
+      "body": "if ${1:condition}\n\tthen ${2:expression}\n\telse ${0:expression}"
+    },
+    "import …": {
+      "prefix": "imp",
+      "body": "import ${0:Module}"
+    },
+    "import … hiding …": {
+      "prefix": "imph",
+      "body": "import ${1:Module} hiding (${2:name})$0"
+    },
+    "import qualified …": {
+      "prefix": "impq",
+      "body": "import qualified ${1:Module}${2: as ${3:M}}"
+    },
+    "import qualified … hiding …": {
+      "prefix": "impqh",
+      "body": "import qualified ${1:Module}${2: as ${3:M}} hiding (${4:name})$0"
+    },
+    "let … in …": {
+      "prefix": "let",
+      "body": "let\n\t${1:pattern} = ${2:expression}\n\tin ${0:expression}"
+    },
+    "main": {
+      "prefix": "main",
+      "body": "main :: IO ()\nmain = ${0:putStrLn \"Hello, World!\"}"
+    },
+    "module … where": {
+      "prefix": "module",
+      "body": "module ${1:Name} where$0"
+    },
+    "module … (…) where": {
+      "prefix": "modulex",
+      "body": "module ${1:Name}\n\t( ${2:exports}\n\t) where$0"
+    },
+    "newtype …": {
+      "prefix": "new",
+      "body": "newtype ${1:Type} = ${0:Other}"
+    },
+    "type …": {
+      "prefix": "type",
+      "body": "type ${1:Type} = ${0:Other}"
+    },
+    "where …": {
+      "prefix": "where",
+      "body": "where\n\t${0:definitions}"
+    }
+  }
+}
