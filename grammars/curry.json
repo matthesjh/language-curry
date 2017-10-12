@@ -1,0 +1,1032 @@
+{
+  "scopeName": "source.curry",
+  "name": "Curry",
+  "fileTypes": [
+    "curry"
+  ],
+  "patterns": [
+    {
+      "include": "#curry_source"
+    }
+  ],
+  "repository": {
+    "assignment_keyword": {
+      "name": "keyword.other.assignment.curry",
+      "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])=(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+    },
+    "attribute": {
+      "match": "(?:((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)(\\.))?([a-z][\\w']*)",
+      "captures": {
+        "1": {
+          "name": "entity.name.class.curry"
+        },
+        "2": {
+          "name": "punctuation.separator.dot.curry"
+        },
+        "3": {
+          "name": "entity.other.attribute-name.curry"
+        }
+      }
+    },
+    "block_comment": {
+      "name": "comment.block.curry",
+      "begin": "{-",
+      "end": "-}",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.block.begin.curry"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.comment.block.end.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#block_comment"
+        }
+      ]
+    },
+    "bracket": {
+      "patterns": [
+        {
+          "name": "punctuation.bracket.round.curry",
+          "match": "\\(|\\)"
+        },
+        {
+          "name": "punctuation.bracket.square.curry",
+          "match": "\\[|\\]"
+        },
+        {
+          "name": "punctuation.bracket.curly.curry",
+          "match": "{|}"
+        }
+      ]
+    },
+    "comma_separator": {
+      "name": "punctuation.separator.comma.curry",
+      "match": ","
+    },
+    "comment": {
+      "patterns": [
+        {
+          "name": "comment.block.documentation.currydoc.curry",
+          "begin": "^(?=---(?![~!@#$%^&*+\\-=<>?./|\\\\:]))",
+          "end": "(?!\\G)",
+          "patterns": [
+            {
+              "begin": "---",
+              "end": "\\n",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.documentation.currydoc.curry"
+                }
+              },
+              "patterns": [
+                {
+                  "name": "keyword.other.documentation.currydoc.$1.curry",
+                  "match": "@(author|category|return|version)\\b"
+                },
+                {
+                  "match": "(@cons)\\s+(\\S+)",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.other.documentation.currydoc.cons.curry"
+                    },
+                    "2": {
+                      "patterns": [
+                        {
+                          "include": "#type_constructor"
+                        },
+                        {
+                          "include": "#prefix_operator"
+                        },
+                        {
+                          "include": "#operator"
+                        },
+                        {
+                          "include": "#invalid"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "match": "(@field)\\s+(\\S+)",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.other.documentation.currydoc.field.curry"
+                    },
+                    "2": {
+                      "patterns": [
+                        {
+                          "include": "#attribute"
+                        },
+                        {
+                          "include": "#prefix_operator"
+                        },
+                        {
+                          "include": "#operator"
+                        },
+                        {
+                          "include": "#invalid"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "match": "(@param)\\s+(\\S+)",
+                  "captures": {
+                    "1": {
+                      "name": "keyword.other.documentation.currydoc.param.curry"
+                    },
+                    "2": {
+                      "patterns": [
+                        {
+                          "name": "variable.parameter.curry",
+                          "match": "[a-z][\\w']*"
+                        },
+                        {
+                          "include": "#invalid"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "begin": "(^[ \\t]+)?(?=--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))",
+          "end": "(?!\\G)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.curry"
+            }
+          },
+          "patterns": [
+            {
+              "name": "comment.line.double-dash.curry",
+              "begin": "--",
+              "end": "\\n",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.curry"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "include": "#block_comment"
+        }
+      ]
+    },
+    "curry_expression": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#infix_function"
+        },
+        {
+          "include": "#infix_type_constructor"
+        },
+        {
+          "include": "#unit"
+        },
+        {
+          "include": "#empty_list"
+        },
+        {
+          "include": "#wildcard"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#quoted_character"
+        },
+        {
+          "include": "#numeric_literal"
+        },
+        {
+          "include": "#prefix_operator"
+        },
+        {
+          "include": "#comma_separator"
+        },
+        {
+          "include": "#pipe_separator"
+        },
+        {
+          "include": "#type_annotation"
+        },
+        {
+          "include": "#bracket"
+        },
+        {
+          "include": "#keyword"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#identifier"
+        },
+        {
+          "include": "#type_constructor"
+        }
+      ]
+    },
+    "curry_preprocessor": {
+      "name": "meta.preprocessor.curry",
+      "begin": "(``)(format|html|printf|regex|sql|xml)\\b",
+      "end": "''",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.preprocessor.begin.curry"
+        },
+        "2": {
+          "name": "keyword.other.preprocessor.$2.curry"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.preprocessor.end.curry"
+        }
+      },
+      "patterns": [
+        {
+          "begin": "(?<=html)",
+          "end": "(?='')",
+          "patterns": [
+            {
+              "include": "text.html.basic"
+            }
+          ]
+        },
+        {
+          "begin": "(?<=sql)",
+          "end": "(?='')",
+          "patterns": [
+            {
+              "include": "source.sql"
+            }
+          ]
+        },
+        {
+          "begin": "(?<=xml)",
+          "end": "(?='')",
+          "patterns": [
+            {
+              "include": "text.xml"
+            }
+          ]
+        }
+      ]
+    },
+    "curry_source": {
+      "patterns": [
+        {
+          "include": "#pragma"
+        },
+        {
+          "include": "#module_declaration"
+        },
+        {
+          "include": "#import"
+        },
+        {
+          "include": "#data_declaration"
+        },
+        {
+          "include": "#type_alias"
+        },
+        {
+          "include": "#function_type_declaration"
+        },
+        {
+          "include": "#curry_preprocessor"
+        },
+        {
+          "include": "#curry_expression"
+        }
+      ]
+    },
+    "data_declaration": {
+      "name": "meta.declaration.$2.curry",
+      "begin": "^([ \\t]*)(data|newtype)\\s+((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[^={])*)",
+      "end": "^(?!\\1[ \\t]|[ \\t]*$)",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.$2.curry"
+        },
+        "3": {
+          "name": "meta.type-signature.curry",
+          "patterns": [
+            {
+              "include": "#type_signature"
+            }
+          ]
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#assignment_keyword"
+        },
+        {
+          "include": "#pipe_separator"
+        },
+        {
+          "contentName": "meta.type-signature.curry",
+          "begin": "(?<=[=|])((?:(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[^|{])*?)((?:`[A-Z][\\w']*`)|(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:(])(?!(?:--+|->|\\|)(?![)~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![)~!@#$%^&*+\\-=<>?./|\\\\:])))",
+          "end": "^|(?=[|{])",
+          "beginCaptures": {
+            "1": {
+              "name": "meta.type-signature.curry",
+              "patterns": [
+                {
+                  "include": "#type_signature"
+                }
+              ]
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#infix_type_constructor"
+                },
+                {
+                  "include": "#operator"
+                }
+              ]
+            }
+          },
+          "patterns": [
+            {
+              "include": "#type_signature"
+            }
+          ]
+        },
+        {
+          "contentName": "meta.type-signature.curry",
+          "begin": "(?<=[=|])\\s*((?:[A-Z][\\w']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))",
+          "end": "^|(?=[|{])",
+          "beginCaptures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#type_constructor"
+                },
+                {
+                  "include": "#prefix_operator"
+                }
+              ]
+            }
+          },
+          "patterns": [
+            {
+              "include": "#type_signature"
+            }
+          ]
+        },
+        {
+          "name": "meta.declaration.record.curry",
+          "begin": "{",
+          "end": "}",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.record.begin.curry"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.record.end.curry"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#record_field_declaration"
+            }
+          ]
+        }
+      ]
+    },
+    "empty_list": {
+      "name": "constant.language.empty-list.curry",
+      "match": "\\[\\]"
+    },
+    "escaped_character": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.curry",
+          "match": "\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\\"'&])"
+        },
+        {
+          "name": "constant.character.escape.control.curry",
+          "match": "\\\\\\^[@-_]"
+        },
+        {
+          "name": "constant.character.escape.decimal.curry",
+          "match": "\\\\[0-9]+"
+        },
+        {
+          "name": "constant.character.escape.hexadecimal.curry",
+          "match": "\\\\x[0-9A-Fa-f]+"
+        },
+        {
+          "name": "constant.character.escape.octal.curry",
+          "match": "\\\\o[0-7]+"
+        }
+      ]
+    },
+    "function": {
+      "match": "(?:((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)(\\.))?([a-z][\\w']*)",
+      "captures": {
+        "1": {
+          "name": "entity.name.class.curry"
+        },
+        "2": {
+          "name": "punctuation.separator.dot.curry"
+        },
+        "3": {
+          "name": "entity.name.function.curry"
+        }
+      }
+    },
+    "function_type_declaration": {
+      "name": "meta.declaration.function.curry",
+      "contentName": "meta.type-signature.curry",
+      "begin": "^([ \\t]*)((?:(?:[a-z][\\w']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:[a-z][\\w']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\\-=<>?./|\\\\:])",
+      "end": "^(?!\\1[ \\t]|[ \\t]*$)",
+      "beginCaptures": {
+        "2": {
+          "patterns": [
+            {
+              "include": "#function"
+            },
+            {
+              "include": "#prefix_operator"
+            },
+            {
+              "include": "#comma_separator"
+            }
+          ]
+        },
+        "3": {
+          "name": "keyword.other.double-colon.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#type_signature"
+        }
+      ]
+    },
+    "identifier": {
+      "match": "(?:((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)(\\.))?([a-z][\\w']*)",
+      "captures": {
+        "1": {
+          "name": "entity.name.class.curry"
+        },
+        "2": {
+          "name": "punctuation.separator.dot.curry"
+        },
+        "3": {
+          "name": "identifier.curry",
+          "patterns": [
+            {
+              "name": "support.function.prelude.$0.curry",
+              "match": "(?<![\\w'])(?:all|and|any|anyOf|appendFile|apply|break|catch|chr|compare|concat|concatMap|cond|const|curry|div|divMod|done|doSolve|drop|dropWhile|either|elem|ensureNotFree|ensureSpine|enumFrom|enumFromThen|enumFromThenTo|enumFromTo|error|failed|filter|flip|foldIO|foldl|foldl1|foldr|foldr1|forIO|forIO_|fst|getChar|getLine|groundNormalForm|head|id|if_then_else|ioError|iterate|length|liftIO|lines|lookup|map|mapIO|mapIO_|max|maybe|min|mod|negate|negateFloat|normalForm|not|notElem|null|or|ord|otherwise|prim_appendFile|prim_chr|prim_error|prim_ioError|prim_ord|prim_putChar|prim_readFile|prim_show|prim_writeFile|print|putChar|putStr|putStrLn|quot|quotRem|readFile|rem|repeat|replicate|return|reverse|seq|sequenceIO|sequenceIO_|show|showError|snd|solve|span|splitAt|success|tail|take|takeWhile|uncurry|unknown|unless|unlines|until|unwords|unzip|unzip3|userError|when|words|writeFile|zip|zip3|zipWith|zipWith3)(?![\\w'])"
+            }
+          ]
+        }
+      }
+    },
+    "import": {
+      "name": "meta.import.curry",
+      "begin": "^([ \\t]*)(import)\\s",
+      "end": "^(?!\\1[ \\t]|[ \\t]*$)",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.import.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#module"
+        },
+        {
+          "include": "#module_exports"
+        },
+        {
+          "name": "keyword.other.$0.curry",
+          "match": "(?<![\\w'])(?:as|hiding|qualified)(?![\\w'])"
+        }
+      ]
+    },
+    "infix_function": {
+      "match": "(`)((?:(?:[A-Z][\\w']*\\.)*[A-Z][\\w']*\\.)?[a-z][\\w']*)(`)",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.function.infix.begin.curry"
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#function"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.function.infix.end.curry"
+        }
+      }
+    },
+    "infix_type_constructor": {
+      "match": "(`)((?:(?:[A-Z][\\w']*\\.)*[A-Z][\\w']*\\.)?[A-Z][\\w']*)(`)",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.constructor.infix.begin.curry"
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#type_constructor"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.constructor.infix.end.curry"
+        }
+      }
+    },
+    "invalid": {
+      "name": "invalid.illegal.character-not-allowed-here.curry",
+      "match": "\\S+"
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "name": "keyword.other.$0.curry",
+          "match": "(?<![\\w'])(?:external|free|infix[lr]?|where)(?![\\w'])"
+        },
+        {
+          "name": "keyword.control.$0.curry",
+          "match": "(?<![\\w'])(?:case|do|else|fcase|if|in|let|of|then)(?![\\w'])"
+        },
+        {
+          "name": "keyword.other.arrow-left.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])<-(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "keyword.other.arrow-right.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])->(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "keyword.other.lambda.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])\\\\(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "keyword.other.range.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])\\.\\.(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "keyword.other.list-constructor.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:]):(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "keyword.other.as-pattern.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])@(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "keyword.other.tilde.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])~(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "include": "#assignment_keyword"
+        }
+      ]
+    },
+    "module": {
+      "name": "entity.name.class.curry",
+      "match": "(?:[A-Z][\\w']*\\.)*[A-Z][\\w']*"
+    },
+    "module_declaration": {
+      "name": "meta.declaration.module.curry",
+      "begin": "^([ \\t]*)(module)\\s",
+      "end": "(?:(?<![\\w'])(where)(?![\\w']))|(?:^(?!\\1[ \\t]|[ \\t]*$))",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.module.curry"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.other.where.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#module"
+        },
+        {
+          "include": "#module_exports"
+        },
+        {
+          "include": "#invalid"
+        }
+      ]
+    },
+    "module_exports": {
+      "name": "meta.declaration.exports.curry",
+      "begin": "\\(",
+      "end": "\\)",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.exports.begin.curry"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.exports.end.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "match": "(?<![\\w'])(module)\\s+((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.module.curry"
+            },
+            "2": {
+              "name": "entity.name.class.curry"
+            }
+          }
+        },
+        {
+          "include": "#type"
+        },
+        {
+          "include": "#function"
+        },
+        {
+          "include": "#comma_separator"
+        },
+        {
+          "name": "meta.constructor-list.curry",
+          "begin": "\\((?!(?!--+\\)|\\.\\.\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))",
+          "end": "\\)",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.constructor-list.begin.curry"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.constructor-list.end.curry"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#comment"
+            },
+            {
+              "include": "#type_constructor"
+            },
+            {
+              "include": "#attribute"
+            },
+            {
+              "include": "#prefix_operator"
+            },
+            {
+              "include": "#comma_separator"
+            },
+            {
+              "name": "keyword.other.export-wildcard.curry",
+              "match": "\\.\\."
+            }
+          ]
+        },
+        {
+          "include": "#prefix_operator"
+        }
+      ]
+    },
+    "numeric_literal": {
+      "patterns": [
+        {
+          "name": "constant.numeric.binary.curry",
+          "match": "0[bB][01]+"
+        },
+        {
+          "name": "constant.numeric.hexadecimal.curry",
+          "match": "0[xX][0-9A-Fa-f]+"
+        },
+        {
+          "name": "constant.numeric.octal.curry",
+          "match": "0[oO][0-7]+"
+        },
+        {
+          "name": "constant.numeric.float.curry",
+          "match": "[0-9]+(?:\\.[0-9]+[eE][+-]?|\\.|[eE][+-]?)[0-9]+"
+        },
+        {
+          "name": "constant.numeric.decimal.curry",
+          "match": "[0-9]+"
+        }
+      ]
+    },
+    "operator": {
+      "match": "(?:((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)(\\.))?((?<![~!@#$%^&*+\\-=<>?/|\\\\:])(?!--+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))[~!@#$%^&*+\\-=<>?./|\\\\:]+(?![~!@#$%^&*+\\-=<>?./|\\\\:]))",
+      "captures": {
+        "1": {
+          "name": "entity.name.class.curry"
+        },
+        "2": {
+          "name": "punctuation.separator.dot.curry"
+        },
+        "3": {
+          "name": "keyword.operator.curry",
+          "patterns": [
+            {
+              "name": "support.function.prelude.curry",
+              "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])(?:!!|\\$|\\$!|\\$!!|\\$#|\\$##|&|&&|&>|\\*|\\+|\\+\\+|-|\\.|/=|<|<=|=:<=|=:=|==|>|>=|>>|>>=|\\?|\\|\\|)(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+            }
+          ]
+        }
+      }
+    },
+    "pipe_separator": {
+      "name": "punctuation.separator.pipe.curry",
+      "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])\\|(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+    },
+    "pragma": {
+      "name": "meta.preprocessor.curry",
+      "begin": "{-#",
+      "end": "#-}",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.preprocessor.begin.curry"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.preprocessor.end.curry"
+        }
+      },
+      "patterns": [
+        {
+          "name": "keyword.other.preprocessor.curry",
+          "match": "(?:^|(?<=\\s|,))[A-Z]\\w*(?=\\s|,)"
+        }
+      ]
+    },
+    "prefix_operator": {
+      "match": "(\\()(?:((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)(\\.))?((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+)(\\))",
+      "captures": {
+        "1": {
+          "name": "entity.name.function.prefix.begin.curry"
+        },
+        "2": {
+          "name": "entity.name.class.curry"
+        },
+        "3": {
+          "name": "punctuation.separator.dot.curry"
+        },
+        "4": {
+          "name": "entity.name.function.prefix.curry"
+        },
+        "5": {
+          "name": "entity.name.function.prefix.end.curry"
+        }
+      }
+    },
+    "quoted_character": {
+      "name": "string.quoted.single.curry",
+      "match": "(')((?:\\\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\\\\\"']))|(?:\\\\[0-9]+)|(?:\\\\o[0-7]+)|(?:\\\\x[0-9A-Fa-f]+)|(?:\\\\\\^[@-_])|[ -\\[\\]-~])(')",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.string.begin.curry"
+        },
+        "2": {
+          "patterns": [
+            {
+              "include": "#escaped_character"
+            }
+          ]
+        },
+        "3": {
+          "name": "punctuation.definition.string.end.curry"
+        }
+      }
+    },
+    "record_field_declaration": {
+      "name": "meta.declaration.record-field.curry",
+      "contentName": "meta.type-signature.curry",
+      "begin": "((?:(?:[a-z][\\w']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:[a-z][\\w']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))))*)\\s*(::)(?![~!@#$%^&*+\\-=<>?./|\\\\:])",
+      "end": "(?=(?:(?:(?:[a-z][\\w']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\)))(?:\\s*,\\s*(?:(?:[a-z][\\w']*)|(?:\\((?!--+\\))[~!@#$%^&*+\\-=<>?./|\\\\:]+\\))))*\\s*::(?![~!@#$%^&*+\\-=<>?./|\\\\:]))|})",
+      "beginCaptures": {
+        "1": {
+          "patterns": [
+            {
+              "include": "#attribute"
+            },
+            {
+              "include": "#prefix_operator"
+            },
+            {
+              "include": "#comma_separator"
+            }
+          ]
+        },
+        "2": {
+          "name": "keyword.other.double-colon.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#type_signature"
+        }
+      ]
+    },
+    "string": {
+      "name": "string.quoted.double.curry",
+      "begin": "\"",
+      "end": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.curry"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#escaped_character"
+        }
+      ]
+    },
+    "type": {
+      "match": "(?:((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)(\\.))?([A-Z][\\w']*)",
+      "captures": {
+        "1": {
+          "name": "entity.name.class.curry"
+        },
+        "2": {
+          "name": "punctuation.separator.dot.curry"
+        },
+        "3": {
+          "name": "entity.name.type.curry",
+          "patterns": [
+            {
+              "name": "support.type.prelude.$0.curry",
+              "match": "(?<![\\w'])(?:Bool|Char|DET|Either|Float|Int|IO|IOError|Maybe|Ordering|String|Success)(?![\\w'])"
+            }
+          ]
+        }
+      }
+    },
+    "type_alias": {
+      "name": "meta.declaration.type.curry",
+      "contentName": "meta.type-signature.curry",
+      "begin": "^([ \\t]*)(type)\\s",
+      "end": "^(?!\\1[ \\t]|[ \\t]*$)",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.type.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#assignment_keyword"
+        },
+        {
+          "include": "#type_signature"
+        }
+      ]
+    },
+    "type_annotation": {
+      "patterns": [
+        {
+          "match": "(\\()((?<a>(?:[^()]|\\(\\g<a>\\))*)(?<![~!@#$%^&*+\\-=<>?./|\\\\:])::(?![~!@#$%^&*+\\-=<>?./|\\\\:])(?<b>(?:[^()]|\\(\\g<b>\\))*))(\\))",
+          "captures": {
+            "1": {
+              "name": "punctuation.bracket.round.curry"
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#curry_expression"
+                }
+              ]
+            },
+            "5": {
+              "name": "punctuation.bracket.round.curry"
+            }
+          }
+        },
+        {
+          "match": "((?<![~!@#$%^&*+\\-=<>?./|\\\\:])::(?![~!@#$%^&*+\\-=<>?./|\\\\:]))(.*?)(?=(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:])(?:--+|<-|=|\\|)(?![~!@#$%^&*+\\-=<>?./|\\\\:]))|(?:(?<![\\w'])(?:else|in|of|then|where)(?![\\w']))|{-|\\n)",
+          "captures": {
+            "1": {
+              "name": "keyword.other.double-colon.curry"
+            },
+            "2": {
+              "name": "meta.type-signature.curry",
+              "patterns": [
+                {
+                  "include": "#type_signature"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "type_constructor": {
+      "match": "(?:((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)(\\.))?([A-Z][\\w']*)",
+      "captures": {
+        "1": {
+          "name": "entity.name.class.curry"
+        },
+        "2": {
+          "name": "punctuation.separator.dot.curry"
+        },
+        "3": {
+          "name": "entity.name.tag.curry",
+          "patterns": [
+            {
+              "name": "support.tag.prelude.$0.curry",
+              "match": "(?<![\\w'])(?:EQ|FailError|False|GT|IOError|Just|Left|LT|NondetError|Nothing|Right|True|UserError)(?![\\w'])"
+            }
+          ]
+        }
+      }
+    },
+    "type_signature": {
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#unit"
+        },
+        {
+          "include": "#comma_separator"
+        },
+        {
+          "name": "keyword.other.function-arrow.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])->(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "variable.other.generic-type.curry",
+          "match": "[a-z][\\w']*"
+        },
+        {
+          "include": "#wildcard"
+        },
+        {
+          "include": "#type"
+        },
+        {
+          "include": "#bracket"
+        }
+      ]
+    },
+    "unit": {
+      "name": "constant.language.unit.curry",
+      "match": "\\(\\)"
+    },
+    "wildcard": {
+      "name": "variable.other.wildcard.curry",
+      "match": "(?<![\\w'])_(?![\\w'])"
+    }
+  }
+}
