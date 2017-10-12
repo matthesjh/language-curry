@@ -1,0 +1,9 @@
+{
+  ".source.curry": {
+    "editor": {
+      "commentStart": "-- ",
+      "decreaseNextIndentPattern": "^\\s*$",
+      "increaseIndentPattern": "(?:(?:(?:(?<![~!@#$%^&*+\\-=<>?./|\\\\:])=|(?<![\\w'])do|(?<![\\w'])else|(?<![\\w'])of|(?<![\\w'])then|(?<![\\w'])where)\\s*)|(?:(?<![\\w'])if(?!.*(?<![\\w'])then(?![\\w']).*(?<![\\w'])else(?![\\w']).*).*))$"
+    }
+  }
+}
