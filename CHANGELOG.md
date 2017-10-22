@@ -1,3 +1,8 @@
+## 1.2.6 (2017-10-22)
+
+* Converted CoffeeScript files to JavaScript
+* Converted CSON files to JSON
+
 ## 1.2.5 (2017-07-28)
 
 * Added new `modulex` snippet for module declarations with export list
