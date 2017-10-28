@@ -50,7 +50,7 @@
     "computed-property-spacing": ["error", "never"],
     "eol-last": ["error", "never"],
     "func-call-spacing": ["error", "never"],
-    "indent": ["error", 2],
+    "indent": ["error", 2, {"SwitchCase": 1}],
     "key-spacing": ["error", {"beforeColon": false, "afterColon": true}],
     "keyword-spacing": ["error", {"before": true, "after": true}],
     "linebreak-style": ["error", "unix"],
