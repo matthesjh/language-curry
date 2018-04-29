@@ -64,6 +64,27 @@
         }
       ]
     },
+    "class_declaration": {
+      "name": "meta.declaration.$2.curry",
+      "contentName": "meta.type-signature.curry",
+      "begin": "^([ \\t]*)(class)\\s",
+      "end": "(?:(?<![\\w'])(where)(?![\\w']))|(?:^(?!\\1[ \\t]|[ \\t]*$))",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.class.curry"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.other.where.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#type_signature"
+        }
+      ]
+    },
     "comma_separator": {
       "name": "punctuation.separator.comma.curry",
       "match": ","
@@ -302,6 +323,12 @@
           "include": "#import"
         },
         {
+          "include": "#class_declaration"
+        },
+        {
+          "include": "#instance_declaration"
+        },
+        {
           "include": "#data_declaration"
         },
         {
@@ -341,6 +368,9 @@
         },
         {
           "include": "#assignment_keyword"
+        },
+        {
+          "include": "#deriving"
         },
         {
           "include": "#pipe_separator"
@@ -419,6 +449,25 @@
               "include": "#record_field_declaration"
             }
           ]
+        }
+      ]
+    },
+    "deriving": {
+      "name": "meta.declaration.$2.curry",
+      "begin": "^([ \\t]*)(deriving)\\s*\\(",
+      "end": "\\)",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.$2.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comma_separator"
+        },
+        {
+          "name": "entity.name.class.curry",
+          "match": "(?:[A-Z][\\w']*\\.)*[A-Z][\\w']*"
         }
       ]
     },
@@ -574,6 +623,27 @@
         }
       }
     },
+    "instance_declaration": {
+      "name": "meta.declaration.$2.curry",
+      "contentName": "meta.type-signature.curry",
+      "begin": "^([ \\t]*)(instance)\\s",
+      "end": "(?:(?<![\\w'])(where)(?![\\w']))|(?:^(?!\\1[ \\t]|[ \\t]*$))",
+      "beginCaptures": {
+        "2": {
+          "name": "keyword.other.instance.curry"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.other.where.curry"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#type_signature"
+        }
+      ]
+    },
     "invalid": {
       "name": "invalid.illegal.character-not-allowed-here.curry",
       "match": "\\S+"
@@ -714,7 +784,7 @@
               "include": "#type_constructor"
             },
             {
-              "include": "#attribute"
+              "include": "#function"
             },
             {
               "include": "#prefix_operator"
@@ -1004,6 +1074,10 @@
         {
           "name": "keyword.other.function-arrow.curry",
           "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])->(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
+        },
+        {
+          "name": "keyword.other.context-arrow.curry",
+          "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])=>(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
         },
         {
           "name": "variable.other.generic-type.curry",
