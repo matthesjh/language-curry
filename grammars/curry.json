@@ -466,7 +466,7 @@
           "include": "#comma_separator"
         },
         {
-          "name": "entity.name.class.curry",
+          "name": "entity.name.type.curry",
           "match": "(?:[A-Z][\\w']*\\.)*[A-Z][\\w']*"
         }
       ]
