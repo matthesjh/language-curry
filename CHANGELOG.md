@@ -1,3 +1,7 @@
+## 1.3.0 (2018-04-29)
+
+* Added support for type classes
+
 ## 1.2.6 (2017-10-22)
 
 * Converted CoffeeScript files to JavaScript
