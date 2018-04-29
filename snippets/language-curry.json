@@ -32,9 +32,17 @@
       "prefix": "case",
       "body": "case ${1:expression} of\n\t${2:pattern} -> ${3:expression}\n\t${4:otherwise} -> ${0:expression}"
     },
+    "class … where …": {
+      "prefix": "class",
+      "body": "class ${1:Name} where\n\t${0:definitions}"
+    },
     "data …": {
       "prefix": "data",
       "body": "data ${1:Type} = ${0:Other}"
+    },
+    "deriving …": {
+      "prefix": "deriv",
+      "body": "deriving (${1:Class})$0"
     },
     "do …": {
       "prefix": "do",
@@ -79,6 +87,10 @@
     "import qualified … hiding …": {
       "prefix": "impqh",
       "body": "import qualified ${1:Module}${2: as ${3:M}} hiding (${4:name})$0"
+    },
+    "instance … where …": {
+      "prefix": "inst",
+      "body": "instance ${1:Class} ${2:Type} where\n\t${0:definitions}"
     },
     "let … in …": {
       "prefix": "let",
