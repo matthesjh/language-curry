@@ -6,8 +6,6 @@ os:
 
 dist: trusty
 
-sudo: false
-
 env:
   global:
     - APM_TEST_PACKAGES=""
