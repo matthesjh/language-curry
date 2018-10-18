@@ -2,6 +2,7 @@
   "name": "language-curry",
   "version": "1.3.0",
   "description": "Curry language support in Atom",
+  "author": "Jan-Hendrik Matthes",
   "keywords": [
     "atom",
     "curry",
@@ -9,6 +10,7 @@
     "language",
     "snippets"
   ],
+  "homepage": "https://github.com/matthesjh/language-curry",
   "repository": {
     "type": "git",
     "url": "https://github.com/matthesjh/language-curry.git"
