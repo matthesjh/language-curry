@@ -973,7 +973,7 @@
           "patterns": [
             {
               "name": "support.type.prelude.$0.curry",
-              "match": "(?<![\\w'])(?:Bool|Char|DET|Either|Float|Int|IO|IOError|Maybe|Ordering|String|Success)(?![\\w'])"
+              "match": "(?<![\\w'])(?:Bool|Bounded|Char|DET|Either|Enum|Eq|Float|Fractional|Functor|Int|Integral|IO|IOError|Maybe|Monad|Num|Ord|Ordering|Read|ReadS|Real|Show|ShowS|String|Success)(?![\\w'])"
             }
           ]
         }
