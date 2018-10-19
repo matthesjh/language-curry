@@ -1,4 +1,4 @@
-## 1.3.1 (2018-10-19)
+## 1.4.0 (2018-10-19)
 
 * Added support for C preprocessor statements
 * Improved highlighting of type classes in a `deriving` clause
