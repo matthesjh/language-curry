@@ -320,6 +320,9 @@
           "include": "#module_declaration"
         },
         {
+          "include": "#c_preprocessor"
+        },
+        {
           "include": "#import"
         },
         {
@@ -342,6 +345,17 @@
         },
         {
           "include": "#curry_expression"
+        }
+      ]
+    },
+    "c_preprocessor": {
+      "name": "meta.preprocessor.c.curry",
+      "begin": "^(?=#)",
+      "end": "(?=$)",
+      "patterns": [
+        {
+          "name": "keyword.other.preprocessor.c.curry",
+          "match": "^#\\S+"
         }
       ]
     },
@@ -742,6 +756,9 @@
           "include": "#comment"
         },
         {
+          "include": "#c_preprocessor"
+        },
+        {
           "match": "(?<![\\w'])(module)\\s+((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)",
           "captures": {
             "1": {
@@ -778,6 +795,9 @@
           "patterns": [
             {
               "include": "#comment"
+            },
+            {
+              "include": "#c_preprocessor"
             },
             {
               "include": "#type_constructor"
