@@ -71,12 +71,12 @@
       "end": "(?:(?<![\\w'])(where)(?![\\w']))|(?:^(?!\\1[ \\t]|[ \\t]*$))",
       "beginCaptures": {
         "2": {
-          "name": "keyword.other.class.curry"
+          "name": "keyword.other.$2.curry"
         }
       },
       "endCaptures": {
         "1": {
-          "name": "keyword.other.where.curry"
+          "name": "keyword.other.$1.curry"
         }
       },
       "patterns": [
@@ -568,7 +568,7 @@
       "end": "^(?!\\1[ \\t]|[ \\t]*$)",
       "beginCaptures": {
         "2": {
-          "name": "keyword.other.import.curry"
+          "name": "keyword.other.$2.curry"
         }
       },
       "patterns": [
@@ -630,12 +630,12 @@
       "end": "(?:(?<![\\w'])(where)(?![\\w']))|(?:^(?!\\1[ \\t]|[ \\t]*$))",
       "beginCaptures": {
         "2": {
-          "name": "keyword.other.instance.curry"
+          "name": "keyword.other.$2.curry"
         }
       },
       "endCaptures": {
         "1": {
-          "name": "keyword.other.where.curry"
+          "name": "keyword.other.$1.curry"
         }
       },
       "patterns": [
@@ -696,17 +696,17 @@
       "match": "(?:[A-Z][\\w']*\\.)*[A-Z][\\w']*"
     },
     "module_declaration": {
-      "name": "meta.declaration.module.curry",
+      "name": "meta.declaration.$2.curry",
       "begin": "^([ \\t]*)(module)\\s",
       "end": "(?:(?<![\\w'])(where)(?![\\w']))|(?:^(?!\\1[ \\t]|[ \\t]*$))",
       "beginCaptures": {
         "2": {
-          "name": "keyword.other.module.curry"
+          "name": "keyword.other.$2.curry"
         }
       },
       "endCaptures": {
         "1": {
-          "name": "keyword.other.where.curry"
+          "name": "keyword.other.$1.curry"
         }
       },
       "patterns": [
@@ -746,7 +746,7 @@
           "match": "(?<![\\w'])(module)\\s+((?:[A-Z][\\w']*\\.)*[A-Z][\\w']*)",
           "captures": {
             "1": {
-              "name": "keyword.other.module.curry"
+              "name": "keyword.other.$1.curry"
             },
             "2": {
               "name": "entity.name.class.curry"
@@ -981,13 +981,13 @@
       }
     },
     "type_alias": {
-      "name": "meta.declaration.type.curry",
+      "name": "meta.declaration.$2.curry",
       "contentName": "meta.type-signature.curry",
       "begin": "^([ \\t]*)(type)\\s",
       "end": "^(?!\\1[ \\t]|[ \\t]*$)",
       "beginCaptures": {
         "2": {
-          "name": "keyword.other.type.curry"
+          "name": "keyword.other.$2.curry"
         }
       },
       "patterns": [
