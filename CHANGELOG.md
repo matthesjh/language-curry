@@ -1,3 +1,9 @@
+## 1.3.1 (2018-10-19)
+
+* Added support for C preprocessor statements
+* Improved highlighting of type classes in a deriving clause
+* Updated the list of `Prelude` functions, operators, types and type classes
+
 ## 1.3.0 (2018-04-29)
 
 * Added support for type classes
