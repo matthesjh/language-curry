@@ -15,6 +15,11 @@ env:
     - ATOM_CHANNEL=stable
     - ATOM_CHANNEL=beta
 
+addons:
+  apt:
+    packages:
+      - libgconf-2-4
+
 script:
   - curl -s -O https://raw.githubusercontent.com/atom/ci/master/build-package.sh
   - chmod u+x build-package.sh
