@@ -1091,6 +1091,10 @@
           "include": "#comma_separator"
         },
         {
+          "name": "keyword.other.forall.curry",
+          "match": "(?<![\\w'])forall(?![\\w'])"
+        },
+        {
           "name": "keyword.other.function-arrow.curry",
           "match": "(?<![~!@#$%^&*+\\-=<>?./|\\\\:])->(?![~!@#$%^&*+\\-=<>?./|\\\\:])"
         },
