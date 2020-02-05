@@ -64,6 +64,10 @@
       "prefix": "docr",
       "body": "--- ${1:comment}\n---\n--- @field ${2:name} - ${0:comment}"
     },
+    "fcase … of …": {
+      "prefix": "fcase",
+      "body": "fcase ${1:expression} of\n\t${2:pattern} -> ${3:expression}\n\t${4:otherwise} -> ${0:expression}"
+    },
     "Function": {
       "prefix": "func",
       "body": "${1:name} :: ${2:Type}\n${1:name} ${3:pattern} = ${0:expression}"
