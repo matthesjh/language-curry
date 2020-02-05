@@ -1,3 +1,8 @@
+## 1.5.0 (2020-02-05)
+
+* Added support for higher-rank types
+* Added a snippet for `fcase` expressions
+
 ## 1.4.0 (2018-10-19)
 
 * Added support for C preprocessor statements
