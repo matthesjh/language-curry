@@ -484,6 +484,10 @@
         }
       ]
     },
+    "dot_separator": {
+      "name": "punctuation.separator.dot.curry",
+      "match": "\\."
+    },
     "empty_list": {
       "name": "constant.language.empty-list.curry",
       "match": "\\[\\]"
@@ -1111,6 +1115,9 @@
         },
         {
           "include": "#type"
+        },
+        {
+          "include": "#dot_separator"
         },
         {
           "include": "#bracket"
