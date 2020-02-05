@@ -1,6 +1,6 @@
 {
   "name": "language-curry",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Curry language support in Atom",
   "author": "Jan-Hendrik Matthes",
   "keywords": [
