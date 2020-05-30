@@ -51,7 +51,7 @@ describe('language-curry', () => {
   });
 
   it('tokenizes quoted characters', () => {
-    const gsChars = [...range(32, 91, true), ...range(93, 126, true)].map((x) => String.fromCharCode(x));
+    const gsChars = [...range(32, 91, true), ...range(93, 126, true)].map(x => String.fromCharCode(x));
 
     for (const char of gsChars) {
       const {tokens} = grammar.tokenizeLine(`'${char}'`);
@@ -63,7 +63,7 @@ describe('language-curry', () => {
 
     const charsByScope = {
       'constant.character.escape.curry': ['NUL', 'SOH', 'STX', 'ETX', 'EOT', 'ENQ', 'ACK', 'BEL', 'BS', 'HT', 'LF', 'VT', 'FF', 'CR', 'SO', 'SI', 'DLE', 'DC1', 'DC2', 'DC3', 'DC4', 'NAK', 'SYN', 'ETB', 'CAN', 'EM', 'SUB', 'ESC', 'FS', 'GS', 'RS', 'US', 'SP', 'DEL', 'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '"', '\''],
-      'constant.character.escape.control.curry': range(64, 95, true).map((x) => `^${String.fromCharCode(x)}`),
+      'constant.character.escape.control.curry': range(64, 95, true).map(x => `^${String.fromCharCode(x)}`),
       'constant.character.escape.decimal.curry': ['0', '7', '21', '42', '73', '5689'],
       'constant.character.escape.hexadecimal.curry': ['x0', 'x7', 'x21aF', 'x42', 'x73Af', 'x5689'],
       'constant.character.escape.octal.curry': ['o0', 'o7', 'o21', 'o42', 'o56', 'o73']
