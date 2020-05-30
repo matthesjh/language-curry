@@ -52,7 +52,6 @@
     "yoda": ["error", "never"],
     "no-label-var": "error",
     "no-shadow": "error",
-    "no-undefined": "error",
     "array-bracket-spacing": ["error", "never"],
     "block-spacing": ["error", "always"],
     "brace-style": ["error", "1tbs"],
