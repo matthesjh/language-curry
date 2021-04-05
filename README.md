@@ -1,5 +1,5 @@
 # Curry language support in Atom
 
-[![Build Status](https://travis-ci.org/matthesjh/language-curry.svg?branch=master)](https://travis-ci.org/matthesjh/language-curry)
+![Build package](https://github.com/matthesjh/language-curry/workflows/Build%20package/badge.svg)
 
 Adds syntax highlighting and snippets to Curry files in Atom.
