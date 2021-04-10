@@ -22,5 +22,5 @@ jobs:
         env:
           ATOM_CHANNEL: ${{ matrix.atom_channel }}
         run: |
-          chmod u+x scripts/build-package.sh
-          scripts/build-package.sh
+          chmod u+x .github/scripts/build-package.sh
+          .github/scripts/build-package.sh
