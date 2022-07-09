@@ -17,7 +17,7 @@ jobs:
         atom_channel: [beta, stable]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build
         env:
           ATOM_CHANNEL: ${{ matrix.atom_channel }}
